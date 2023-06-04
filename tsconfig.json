@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "api/process.ts",
+    "components/DataContainer.tsx",
+    "components/Layout.tsx",
+    "components/Nav.tsx",
+    "components/TestContainer.tsx",
+    "components/TopBtn.tsx",
+    "components/Upload.tsx",
+    "pages/_app.tsx",
+    "pages/data.tsx",
+    "pages/index.tsx",
+    "pages/sign.tsx",
+    "pages/test.tsx",
+    "config/firebaseAdmin.ts",
+    "config/firebaseClient.ts",
+    "config/store.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

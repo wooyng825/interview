@@ -1,5 +1,6 @@
 import PostContainer from '@/components/PostContainer';
 import { db } from '@/config/firebaseClient';
+import { DataType, useDataStore } from '@/config/store';
 import { get, ref } from 'firebase/database';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -35,16 +36,17 @@ export default function Home() {
 
     return (
         <>
-            <div className="flex flex-col mx-auto px-4 py-10">
-                <h1 className="text-2xl font-extrabold">{"기능 [Features]"}</h1>
-                {
-                    post.length === 0 ? null :
-                        post.map((data, index) => {
-                            return (
-                                <PostContainer key={index} index={index} data={data} />
-                            );
-                        })
-                }
+            <div className="flex flex-col px-5 py-10">
+                <section className='flex flex-wrap justify-evenly mx-auto'>
+                    {
+                        post.length === 0 ? null :
+                            post.map((data, index) => {
+                                return (
+                                    <PostContainer key={index} index={index} data={data} />
+                                );
+                            })
+                    }
+                </section>
             </div>
         </>
     );

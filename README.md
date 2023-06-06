@@ -54,6 +54,11 @@
 - 실시간으로 녹음한 음성 뿐만 아니라 사전에 녹음된 음성파일도 업로드하여 변환할 수 있습니다.
 ---
 
+#### 〈 녹음 데이터 (Record Data) 〉
+- 파일 업로드 또는 음성 녹음을 기반으로 변환한 텍스트 + 질문(주제) + 저장 시간이 함께 저장된 데이터를 실시간으로 볼 수 있습니다.
+- 녹음 데이터를 삭제할 수 있습니다.
+
+
 #### 〈 로그인 & 데이터베이스(DB) 연동 〉
 - **회원 기능**을 통해 관련 자료 & 음성 기반 텍스트 데이터 등을 저장할 수 있고  
 이를 통해 **성장 과정 관찰**, **개선 방향 설정** 등을 할 수 있습니다.
@@ -83,7 +88,23 @@
 ### 2023.06.04
 - 데이터 수정 기능 추가
 - README 작성
-- 초기 ver. 구현 완료
+- 1.0 ver. 구현 완료
+
+### 2023.06.05
+- 녹음 시간 버그 수정
+- 데이터베이스 재구조화
+- '녹음 데이터' 탭 추가
+- Web Speech API를 활용한 text-to-speech 구현 및 테스트
+- 음성 재생 아이콘 - 약간의 사용자 경험 개선 (speaking or not);
+- 1.1 ver. 구현 완료
+
+# 2023.06.06
+- UI 일부 수정 및 개선
+- 유저 정보 색상 변경 (black → gray)
+- 페이지 별 영역 - 제목 추가
+- 페이지 좌우 여백 통일 (홈 제외)
+- 녹음 및 파일 업로드 / 텍스트 변환 관련 영역 위치 고정 (오른쪽 아래, toggle 형태)
+- 1.2 ver. 구현 완료
 
 <br />
 <br />
@@ -118,3 +139,9 @@
 - [Firebase 배포 오류 → build & export 먼저 한 후 배포](https://velog.io/@stnqls3938/Firebase로-Next.js-호스팅하기)
 
 - [NextJS에서 OpenAI - Whisper모델 사용하기](https://javascript.plainenglish.io/transcribe-audio-files-using-whisper-open-ai-api-using-next-js-and-typescript-ad851016c889)
+
+- [Wep Speech API - MDN  Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)
+
+- [Wep Speech API - JavaScript에서 쉽게 text-to-speech 기능 구현하기](https://javascript.plainenglish.io/how-to-easily-implement-text-to-speech-functionality-in-your-next-javascript-project-16f0d14432f0)
+
+- [Wep Speech API - Speech Synthesis를 이용한 text-to-speech 기능 구현](https://javascript.plainenglish.io/how-to-easily-implement-text-to-speech-functionality-in-your-next-javascript-project-16f0d14432f0)

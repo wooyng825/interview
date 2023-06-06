@@ -13,6 +13,7 @@ interface UserInfo {
 export const useDataStore = create<UserInfo>((set) => ({
     userState: false,
     userData: new Map<DataType, string>(),
+    dataList: new Array(),
     setUserState: () => {
         set((state) => ({ userState: !state.userState }));
     },

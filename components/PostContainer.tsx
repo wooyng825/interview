@@ -18,7 +18,6 @@ export default function PostContainer({ index, data }: Props) {
     const { userState } = useDataStore();
     const onClick = (e: any) => {
         const currentId = e.currentTarget.id;
-        console.log(currentId);
         switch (currentId) {
             case "0":
                 router.push("/data");
@@ -56,14 +55,15 @@ export default function PostContainer({ index, data }: Props) {
 
     return (
         <>
-            <div key={index} id={`${index}`} className="post-container px-4 py-3 my-4 rounded-lg opacity-70 text-black bg-yellow-300 hover:opacity-100 hover:scale-105 hover:cursor-pointer"
+            <div key={index} id={`${index}`} className="post-container w-1/4 p-4 m-4 rounded-lg opacity-70 text-black bg-amber-100 border-2 border-amber-300 hover:opacity-100 hover:scale-105 hover:cursor-pointer"
                 style={{ transition: "all .3s ease-in" }}>
-                <h2 className="text-lg font-bold">{data.title}</h2>
+                <h2 className="text-lg font-bold my-1">{data.title}</h2>
+                <hr />
                 <ul>
                     {
                         data.contents.length === 0 ? "-" : data.contents.map((list, index) => {
                             return (
-                                <li key={index}>- {list}</li>
+                                <li className="my-2 text-sm" key={index}>- {list}</li>
                             );
                         })
                     }

@@ -4,9 +4,10 @@ import { db } from "@/config/firebaseClient";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { DataType, useDataStore } from '@/config/store';
-import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
+import { faCloudArrowUp, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 import DataContainer from '@/components/DataContainer';
 import { toast } from 'react-hot-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 enum State { init, load };
 
@@ -19,6 +20,7 @@ interface UserData {
     id: number,
     question: string,
     answer: string,
+    time: string,
 }
 
 export default function Data() {
@@ -62,15 +64,20 @@ export default function Data() {
                         const answers: (string)[] = data['answers'];
                         const questions: (string)[] = data['questions'];
                         const results: (UserData)[] = [];
-                        for (let i = 0; i < answers.length; i++) {
-                            results.push({
-                                id: i,
-                                question: questions[i],
-                                answer: answers[i],
-                            });
+                        if (answers !== undefined) {
+                            for (let i = 0; i < answers.length; i++) {
+                                results.push({
+                                    id: i,
+                                    question: questions[i],
+                                    answer: answers[i],
+                                    time: '',
+                                });
+                            }
+                            setDataList([...results]);
+                            state == State.init ? toast.success('데이터 불러오기 완료') : null;
+                        } else {
+                            state == State.init ? toast.error('데이터가 존재하지 않습니다.') : null;
                         }
-                        setDataList([...results]);
-                        state == State.init ? toast.success('데이터 불러오기 완료') : null;
                     } else {
                         state == State.init ? toast.error('데이터가 존재하지 않습니다.') : null;
                     }
@@ -97,7 +104,9 @@ export default function Data() {
 
     useEffect(() => {
         const deleteBtn = document.querySelectorAll('.delete-btn');
-        const onClick = (e: any) => {
+        const editBtn = document.querySelectorAll('.edit-btn');
+
+        const onRemoveClick = (e: any) => {
             const data = e.currentTarget.parentElement;
             const removeId = data.id;
             const temp = [...dataList];
@@ -111,13 +120,48 @@ export default function Data() {
             setDataList([...newList]);
             handleDB.Save(answers, questions);
         }
+
+        const onEditClick = (e: any) => {
+
+            const qInput: HTMLInputElement = document.querySelector('#question')!;
+            const aInput: HTMLTextAreaElement = document.querySelector('#answer')!;
+            const editParent = e.currentTarget.parentElement;
+            const removeId = editParent.id;
+            const editQuestion = editParent.firstChild;
+            const editAnswer = editParent.lastChild;
+            qInput.value = editQuestion.innerText;
+            aInput.value = editAnswer.innerText;
+
+            if (editQuestion.innerText === '' || editAnswer.innerText === '') {
+                toast.error('데이터 오류');
+                return;
+            }
+            const temp = [...dataList];
+            const newList = temp.filter((value) => value.id.toString() !== removeId);
+            const answers: (string)[] = [];
+            const questions: (string)[] = [];
+            newList.forEach((value) => {
+                answers.push(value.answer);
+                questions.push(value.question);
+            });
+            setDataList([...newList]);
+            handleDB.Save(answers, questions);
+        };
+
+
         deleteBtn.forEach((value) => {
-            value.addEventListener("click", onClick);
+            value.addEventListener("click", onRemoveClick);
+        });
+        editBtn.forEach((value) => {
+            value.addEventListener("click", onEditClick);
         });
 
         return () => {
             deleteBtn.forEach((value) => {
-                value.removeEventListener("click", onClick);
+                value.removeEventListener("click", onRemoveClick);
+            });
+            editBtn.forEach((value) => {
+                value.removeEventListener("click", onEditClick);
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -135,32 +179,27 @@ export default function Data() {
                                 {...register("answer", { required: true })}></textarea>
                         </div>
                         <div className="m-2">
-                            <input type="submit" className="submit-btn text-white bg-sky-500 border-2 border-sky-500 hover:text-sky-500 hover:bg-white" value="저장"
-                                onClick={handleSubmit(onValid)}
-                                style={{
-                                    transition: "all .2s ease-in",
-                                }} />
+                            <button type="submit" className="submit-btn text-white bg-sky-500 border-2 border-sky-500 hover:text-sky-500 hover:bg-white"
+                                onClick={handleSubmit(onValid)} style={{ transition: "all .2s ease-in", }}>Save</button>
                         </div>
                     </form>
                 </section>
-                <div className="mx-auto my-10 w-10/12 flex flex-col items-center bg-yellow-300 rounded-lg opacity-90">
-                    <section className="w-10/12 mx-auto my-10">
-                        {
-                            dataList.length === 0 ? <div className="no-content font-bold">{'No Data.'}</div> :
-                                dataList.map((value, index) => {
-                                    return (
-                                        <DataContainer key={index} icon={faDeleteLeft} index={index} value={value} />
-                                    );
-                                })
-                        }
-                    </section>
+                <div className="m-10">
+                    <div className="w-3/4 mx-auto flex flex-col items-center bg-yellow-300 rounded-lg opacity-90">
+                        <span className="p-4 italic text-xl">{"Saved Data"}</span>
+                        <section className="w-10/12 mx-auto my-10">
+                            {
+                                dataList.length === 0 ? <div className="no-content font-bold">{'No Data.'}</div> :
+                                    dataList.map((value, index) => {
+                                        return (
+                                            <DataContainer key={index} time={''} index={index.toString()} value={value} />
+                                        );
+                                    })
+                            }
+                        </section>
+                    </div>
                 </div>
             </main>
-            <style jsx>{`
-                .input-box {
-                    opacity: 0.8;
-                }
-            `}</style>
         </>
     );
 }

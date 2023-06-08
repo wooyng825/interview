@@ -170,4 +170,4 @@
 
 - [쿠키를 이용한 firebase 인증](https://colinhacks.com/essays/nextjs-firebase-authentication)
 
-- [Firebase 문서 - Next.js 통합](https://firebase.google.com/docs/hosting/frameworks/nextjs?hl=ko){:target="_blank"}
+- [Firebase 문서 - Next.js 통합](https://firebase.google.com/docs/hosting/frameworks/nextjs?hl=ko)

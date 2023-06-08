@@ -174,3 +174,7 @@
 - [쿠키를 이용한 firebase 인증](https://colinhacks.com/essays/nextjs-firebase-authentication)
 
 - [Firebase 문서 - Next.js 통합](https://firebase.google.com/docs/hosting/frameworks/nextjs?hl=ko)
+
+- [Vercel 문서 - Next.js](https://vercel.com/docs/frameworks/nextjs)
+
+- [Vercel 문서 - 환경 변수](https://vercel.com/docs/concepts/projects/environment-variables)

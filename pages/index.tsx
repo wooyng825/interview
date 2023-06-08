@@ -137,7 +137,7 @@ export default function Home({ uid, homePost }: Props) {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user, uid]);
+    }, []);
 
     return (
         <>

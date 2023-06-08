@@ -9,10 +9,7 @@ import { useAuth } from '@/components/AuthProvider';
 import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 import { admin } from '@/config/firebaseAdmin';
-
-type Props = {
-    uid: string,
-};
+import { Props } from '.';
 
 interface HookFormTypes {
     question: string,
@@ -48,8 +45,8 @@ export default function DataSet({ uid }: Props) {
 
     // DB handler
     const handleDB = {
-        Save: async (answers: (string)[], questions: (string)[]) => {
-            await update(ref(db, `users/${userId ?? uid}`), {
+        Save: (answers: (string)[], questions: (string)[]) => {
+            update(ref(db, `users/${userId ?? user?.uid}`), {
                 answers: answers,
                 questions: questions,
             }).then(() => {
@@ -59,8 +56,8 @@ export default function DataSet({ uid }: Props) {
                 toast.error('데이터 저장 실패');
             });
         },
-        Load: async () => {
-            await get(ref(db, `users/${userId ?? uid}`)).then((snapshot) => {
+        Load: () => {
+            get(ref(db, `users/${userId ?? user?.uid}`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     const answers: (string)[] = data['answers'];
@@ -93,12 +90,13 @@ export default function DataSet({ uid }: Props) {
     }, []);
 
     useEffect(() => {
-        setTimeout(async () => {
-            if (uid) {
+        console.log(uid);
+        setTimeout(() => {
+            if (uid !== undefined) {
                 if (user !== null) {
                     toast.loading('데이터 불러오는 중 ..');
-                    setUserId(uid);
-                    await handleDB.Load();
+                    setUserId(user.uid);
+                    handleDB.Load();
                 }
             } else {
                 if (user === null) {
@@ -217,7 +215,7 @@ export default function DataSet({ uid }: Props) {
     );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext): Promise<{ props: {} }> {
     try {
         const cookies = nookies.get(context);
         const token = await admin.auth().verifyIdToken(cookies.token);
@@ -225,15 +223,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
         return {
             props: {
-                uid
+                uid: uid,
             }
-        }
+        };
     } catch (error) {
         return {
-            redirect: {
-                destination: "/",
-                permanent: false,
+            props: {
+                uid: undefined,
             }
         }
     }
+
+
+
 };

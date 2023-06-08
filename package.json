@@ -1,7 +1,7 @@
 {
   "name": "for-interview",
-  "version": "0.1.0",
-  "private": true,
+  "version": "2.1.0",
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -26,6 +26,7 @@
     "ffmpeg": "^0.0.4",
     "firebase": "^9.22.1",
     "firebase-admin": "^11.9.0",
+    "firebase-cli": "^1.2.0",
     "firebase-tools": "^12.3.0",
     "form-data": "^4.0.0",
     "formdata": "^0.10.4",

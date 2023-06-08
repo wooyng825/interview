@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { signOut } from 'firebase/auth';
 import { auth } from '@/config/firebaseClient';
 import { useAuth } from "./AuthProvider";
-import { toast } from "react-hot-toast";
 
 export default function Nav() {
     const router = useRouter();
@@ -16,12 +15,6 @@ export default function Nav() {
             signOut(auth);
         }
         router.pathname === "/" ? router.reload() : router.push("/");
-    };
-
-    const handleClick = () => {
-        if (user === null) {
-            toast.error('로그인이 필요합니다.');
-        }
     };
 
     useEffect(() => {
@@ -36,13 +29,13 @@ export default function Nav() {
         <>
             <nav className="w-10/12 my-2 p-4 m-auto rounded-2xl bg-sky-300 relative">
                 <Link href="/" legacyBehavior>
-                    <a onClick={handleClick} className={`${"nav-item"} ${router.pathname === '/' ? 'active' : ''}`}>홈</a>
+                    <a className={`${"nav-item"} ${router.pathname === '/' ? 'active' : ''}`}>홈</a>
                 </Link>
                 <Link href="/dataset" legacyBehavior >
-                    <a onClick={handleClick} className={`${"nav-item"} ${router.pathname === '/dataset' ? 'active' : ''}`}>데이터 설정</a>
+                    <a className={`${"nav-item"} ${router.pathname === '/dataset' ? 'active' : ''}`}>데이터 설정</a>
                 </Link>
                 <Link href="/test" legacyBehavior>
-                    <a onClick={handleClick} className={`${"nav-item"} ${router.pathname === '/test' ? 'active' : ''}`}>테스트</a>
+                    <a className={`${"nav-item"} ${router.pathname === '/test' ? 'active' : ''}`}>테스트</a>
                 </Link>
                 <div id="user-section" className="absolute top-1/2 right-10 flex items-end -translate-y-1/2">
                     <span className="px-4 text-gray-600 hover:scale-105 hover:cursor-pointer" style={{

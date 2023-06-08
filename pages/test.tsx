@@ -12,10 +12,7 @@ import { useAuth } from "@/components/AuthProvider";
 import { GetServerSidePropsContext } from "next";
 import nookies from 'nookies';
 import { admin } from "@/config/firebaseAdmin";
-
-type Props = {
-    uid: string
-};
+import { Props } from ".";
 
 interface UserData {
     question: string,
@@ -111,7 +108,7 @@ export default function Test({ uid }: Props) {
     const handleDB = {
         LoadData: async () => {
             let result = false;
-            await get(ref(db, `users/${userId ?? uid}`)).then((snapshot) => {
+            await get(ref(db, `users/${userId ?? user?.uid}`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     const answers: (string)[] = data['answers'];
@@ -146,7 +143,7 @@ export default function Test({ uid }: Props) {
         },
         LoadTranscript: async () => {
             let result = false;
-            await get(ref(db, `users/${userId ?? uid}/transcripts`)).then((snapshot) => {
+            await get(ref(db, `users/${userId ?? user?.uid}/transcripts`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     const keys = Object.keys(data);
@@ -167,7 +164,7 @@ export default function Test({ uid }: Props) {
             return result;
         },
         remove: (id: string) => {
-            remove(ref(db, `users/${userId}/transcripts/${id}`)).then((_) => {
+            remove(ref(db, `users/${userId ?? user?.uid}/transcripts/${id}`)).then((_) => {
                 toast.success('해당 데이터 삭제 완료');
             }).catch((_) => {
                 toast.error('데이터 삭제 오류');
@@ -180,11 +177,12 @@ export default function Test({ uid }: Props) {
     }, []);
 
     useEffect(() => {
+        console.log(uid);
         setTimeout(async () => {
-            if (uid) {
+            if (uid !== undefined) {
                 if (user !== null) {
                     toast.loading('데이터 불러오는 중..');
-                    setUserId(uid);
+                    setUserId(user.uid);
                     const dataState = await handleDB.LoadData();
                     const savedState = await handleDB.LoadTranscript();
 
@@ -298,22 +296,21 @@ export default function Test({ uid }: Props) {
     );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext): Promise<{ props: {} }> {
     try {
         const cookies = nookies.get(context);
         const token = await admin.auth().verifyIdToken(cookies.token);
         const { uid } = token;
         return {
             props: {
-                uid,
+                uid: uid,
             }
         };
     } catch (error) {
         return {
-            redirect: {
-                destination: "/",
-                permanent: false,
+            props: {
+                uid: undefined,
             }
-        };
+        }
     }
 }

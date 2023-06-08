@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 
-const serviceAccount = require('for-interview-2023-firebase-adminsdk-b496o-be89b82563.json');
+const serviceAccount = require('for-interview-2023-firebase-adminsdk-b496o-a98e962aae.json');
 
 if (!admin.apps.length) {
     admin.initializeApp({

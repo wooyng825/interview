@@ -7,34 +7,34 @@ import { auth } from '@/config/firebaseClient';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import nookies from 'nookies';
+import { useAuth } from '@/components/AuthProvider';
 import { GetServerSidePropsContext } from 'next';
 import { admin } from '@/config/firebaseAdmin';
-import { useAuth } from '@/components/AuthProvider';
+import nookies from 'nookies';
 
 enum Type { signIn, signUp };
 
 export type Props = {
     homePost: (any)[],
     uid: string | undefined,
-}
+};
 
 interface HookFormTypes {
     email: string,
     pw: string,
-}
+};
 
 interface Post {
     title: string,
     contents: (string)[],
-}
+};
 
 interface UserData {
     id: number,
     question: string,
     answer: string,
     time: string,
-}
+};
 
 export default function Home({ uid, homePost }: Props) {
     const router = useRouter();
@@ -141,7 +141,7 @@ export default function Home({ uid, homePost }: Props) {
 
     return (
         <>
-            <section className={`${uid !== undefined ? "hidden" : ""} py-20 mx-auto my-40 w-1/2 opacity-80 text-center bg-white border-2 border-sky-500 rounded-lg`}>
+            <section className={`${uid !== undefined && user !== null ? "hidden" : ""} py-20 mx-auto my-40 w-1/2 opacity-80 text-center bg-white border-2 border-sky-500 rounded-lg`}>
                 <main>
                     <form className="flex justify-center">
                         <div className="flex w-1/2 flex-col m-0">
@@ -177,58 +177,62 @@ export default function Home({ uid, homePost }: Props) {
     );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const getData = {
-        userData: async () => {
-            const cookies = nookies.get(context);
-            const token = await admin.auth().verifyIdToken(cookies.token);
-            const { uid } = token;
-            return uid;
-        },
-        homePost: async () => {
-            let postList: (any)[] = [];
-            await get(ref(db, 'home')).then((snapshot) => {
-                if (snapshot.exists()) {
-                    const results: (Post)[] = [];
-                    const data = snapshot.val();
-                    for (let i = 0; i < data.length; i++) {
-                        const title = Object.keys(data[i])[0];
-                        results.push({
-                            title: title,
-                            contents: data[i][title],
-                        });
-                    }
-                    postList.push(...results);
-                }
-            }).catch((error) => {
-                postList.push(`${error}`);
-            });
-            return postList;
-        },
-    };
-
+export async function getServerSideProps(context: GetServerSidePropsContext): Promise<{ props: {} }> {
     try {
-        const uid = await getData.userData();
+        const cookies = nookies.get(context);
+        const token = await admin.auth().verifyIdToken(cookies.token);
+        const { uid } = token;
 
         let homePost: (any)[] = [];
-        homePost.push(...await getData.homePost());
 
-        return {
-            props: {
-                uid,
-                homePost,
+        await get(ref(db, 'home')).then((snapshot) => {
+            if (snapshot.exists()) {
+                const results: (Post)[] = [];
+                const data = snapshot.val();
+                for (let i = 0; i < data.length; i++) {
+                    const title = Object.keys(data[i])[0];
+                    results.push({
+                        title: title,
+                        contents: data[i][title],
+                    });
+                }
+                homePost.push(...results);
             }
-        }
-
-    } catch (error) {
-
-        let homePost: (any)[] = [];
-        homePost.push(...await getData.homePost());
+        }).catch((error) => {
+            homePost.push(`${error}`);
+        });
 
         return {
             props: {
-                homePost,
+                uid: uid,
+                homePost: homePost,
             }
         };
+    } catch (error) {
+        let homePost: (any)[] = [];
+
+        await get(ref(db, 'home')).then((snapshot) => {
+            if (snapshot.exists()) {
+                const results: (Post)[] = [];
+                const data = snapshot.val();
+                for (let i = 0; i < data.length; i++) {
+                    const title = Object.keys(data[i])[0];
+                    results.push({
+                        title: title,
+                        contents: data[i][title],
+                    });
+                }
+                homePost.push(...results);
+            }
+        }).catch((error) => {
+            homePost.push(`${error}`);
+        });
+
+        return {
+            props: {
+                uid: undefined,
+                homePost: homePost,
+            }
+        }
     }
-};
+}

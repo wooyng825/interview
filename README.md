@@ -36,7 +36,7 @@
 #### 〈 랜덤 질문 (Random Questions) & 답변 숨기기 (Hidden Ansnwers) 〉
 - 등록한 데이터의 순서에 관계없이 랜덤으로 보여줍니다.
 - 질문이나 주제에 대한 답변은 기본적으로 숨겨진 채로 보여지나 사용자가 원한다면 볼 수 있습니다.
-- Web Speech API를 활용하여 질문 또는 주제를 읽어주는 음성 재생 기능이 있습니다.
+- [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)를 활용하여 질문 또는 주제를 읽어주는 음성 재생 기능이 있습니다.
 ---
 
 #### 〈 녹음 (Record) 〉

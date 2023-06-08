@@ -108,7 +108,7 @@ export default function Test({ uid }: Props) {
     const handleDB = {
         LoadData: async () => {
             let result = false;
-            await get(ref(db, `users/${userId ?? user?.uid}`)).then((snapshot) => {
+            await get(ref(db, `users/${userId ?? uid}`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     const answers: (string)[] = data['answers'];
@@ -143,7 +143,7 @@ export default function Test({ uid }: Props) {
         },
         LoadTranscript: async () => {
             let result = false;
-            await get(ref(db, `users/${userId ?? user?.uid}/transcripts`)).then((snapshot) => {
+            await get(ref(db, `users/${userId ?? uid}/transcripts`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     const keys = Object.keys(data);
@@ -164,7 +164,7 @@ export default function Test({ uid }: Props) {
             return result;
         },
         remove: (id: string) => {
-            remove(ref(db, `users/${userId ?? user?.uid}/transcripts/${id}`)).then((_) => {
+            remove(ref(db, `users/${userId ?? uid}/transcripts/${id}`)).then((_) => {
                 toast.success('해당 데이터 삭제 완료');
             }).catch((_) => {
                 toast.error('데이터 삭제 오류');

@@ -64,6 +64,7 @@
 #### 〈 로그인 & 데이터베이스(DB) 연동 〉
 - **회원 기능**을 통해 관련 자료 & 음성 기반 텍스트 데이터 등을 저장할 수 있고  
 이를 통해 **성장 과정 관찰**, **개선 방향 설정** 등을 할 수 있습니다.
+- 사용자 token을 통해 로그인을 유지할 수 있습니다.
 
 <br />
 <br />
@@ -127,6 +128,11 @@
 - 배포 플랫폼 변경 : firebase → vercel
 - 2.1 ver. 2차 업데이트 완료
 
+### 2023.06.09
+- ServerSideProps 코드 개선 (함수형태)
+- HTML 커스텀 데이터 속성 → 페이지 별 배경화면 설정
+- 2.2 ver. 업데이트 완료
+
 <br />
 <br />
 
@@ -137,6 +143,7 @@
 <br />
 [<img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">](https://firebase.google.com/)
 [<img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white">](https://openai.com/)
+[<img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">](https://vercel.com/)
 <br />
 [<img src="https://img.shields.io/badge/Font Awesome-528DD7?style=for-the-badge&logo=fontawesome&logoColor=white">](https://fontawesome.com/)
 
@@ -178,3 +185,5 @@
 - [Vercel 문서 - Next.js](https://vercel.com/docs/frameworks/nextjs)
 
 - [Vercel 문서 - 환경 변수](https://vercel.com/docs/concepts/projects/environment-variables)
+
+- [HTML태그에 커스텀 데이터 속성 설정](https://velog.io/@gga01075/HTML태그에-나만의-커스텀-속성-추가하기-ppec05qv)

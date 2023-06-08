@@ -127,7 +127,6 @@ export default function Home({ uid, homePost }: Props) {
     };
 
     useEffect(() => {
-        console.log(uid);
         switch (typeof homePost[0] === typeof {}) {
             case true:
                 setPost([...post, ...homePost]);
@@ -179,13 +178,8 @@ export default function Home({ uid, homePost }: Props) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext): Promise<{ props: {} }> {
-    try {
-        const cookies = nookies.get(context);
-        const token = await admin.auth().verifyIdToken(cookies.token);
-        const { uid } = token;
-
-        let homePost: (any)[] = [];
-
+    const getPost = async () => {
+        const postList: (any)[] = [];
         await get(ref(db, 'home')).then((snapshot) => {
             if (snapshot.exists()) {
                 const results: (Post)[] = [];
@@ -197,11 +191,22 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
                         contents: data[i][title],
                     });
                 }
-                homePost.push(...results);
+                postList.push(...results);
             }
         }).catch((error) => {
-            homePost.push(`${error}`);
+            postList.push(`${error}`);
         });
+
+        return postList;
+    }
+
+    try {
+        const cookies = nookies.get(context);
+        const token = await admin.auth().verifyIdToken(cookies.token);
+        const { uid } = token;
+
+        let homePost: (any)[] = [];
+        homePost.push(...await getPost());
 
         return {
             props: {
@@ -211,23 +216,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
         };
     } catch (error) {
         let homePost: (any)[] = [];
-
-        await get(ref(db, 'home')).then((snapshot) => {
-            if (snapshot.exists()) {
-                const results: (Post)[] = [];
-                const data = snapshot.val();
-                for (let i = 0; i < data.length; i++) {
-                    const title = Object.keys(data[i])[0];
-                    results.push({
-                        title: title,
-                        contents: data[i][title],
-                    });
-                }
-                homePost.push(...results);
-            }
-        }).catch((error) => {
-            homePost.push(`${error}`);
-        });
+        homePost.push(...await getPost());
 
         return {
             props: {

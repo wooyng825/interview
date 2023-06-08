@@ -46,7 +46,7 @@ export default function DataSet({ uid }: Props) {
     // DB handler
     const handleDB = {
         Save: (answers: (string)[], questions: (string)[]) => {
-            update(ref(db, `users/${userId ?? user?.uid}`), {
+            update(ref(db, `users/${userId ?? uid}`), {
                 answers: answers,
                 questions: questions,
             }).then(() => {
@@ -57,7 +57,7 @@ export default function DataSet({ uid }: Props) {
             });
         },
         Load: () => {
-            get(ref(db, `users/${userId ?? user?.uid}`)).then((snapshot) => {
+            get(ref(db, `users/${userId ?? uid}`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     const answers: (string)[] = data['answers'];

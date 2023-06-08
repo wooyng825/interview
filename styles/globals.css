@@ -13,23 +13,30 @@ body,
     display: none;
 }
 
-body {
-    position: relative;
-}
-
 body::before {
     content: "";
     position: fixed;
     top: 0;
     left: 0;
-    opacity: 0.1;
+    opacity: 0.15;
     width: 100%;
     height: 100%;
     z-index: -10;
-    background-image: url(/images/meeting.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+}
+
+body[data-page="/"]::before {
+    background-image: url(/images/interview.jpg);
+}
+
+body[data-page="/dataset"]::before {
+    background-image: url(/images/abstract-lines.jpg);
+}
+
+body[data-page="/test"]::before {
+    background-image: url(/images/microphone.jpg);
 }
 
 @keyframes breath-up {
@@ -47,9 +54,6 @@ body::before {
 }
 
 @layer base {
-    /* body:before {
-        @apply opacity-10;
-    } */
 
     .main-wrapper {
         @apply w-10/12 m-auto;

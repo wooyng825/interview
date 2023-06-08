@@ -90,7 +90,6 @@ export default function DataSet({ uid }: Props) {
     }, []);
 
     useEffect(() => {
-        console.log(uid);
         setTimeout(() => {
             if (uid !== undefined) {
                 if (user !== null) {
@@ -228,12 +227,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
         };
     } catch (error) {
         return {
-            props: {
-                uid: undefined,
-            }
+            props: {}
         }
     }
-
-
-
 };

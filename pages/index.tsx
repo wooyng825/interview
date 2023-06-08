@@ -16,7 +16,7 @@ enum Type { signIn, signUp };
 
 export type Props = {
     homePost: (any)[],
-    uid: string | undefined,
+    uid: string,
 };
 
 interface HookFormTypes {
@@ -127,6 +127,7 @@ export default function Home({ uid, homePost }: Props) {
     };
 
     useEffect(() => {
+        console.log(uid);
         switch (typeof homePost[0] === typeof {}) {
             case true:
                 setPost([...post, ...homePost]);
@@ -230,7 +231,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
 
         return {
             props: {
-                uid: undefined,
                 homePost: homePost,
             }
         }

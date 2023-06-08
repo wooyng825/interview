@@ -177,7 +177,6 @@ export default function Test({ uid }: Props) {
     }, []);
 
     useEffect(() => {
-        console.log(uid);
         setTimeout(async () => {
             if (uid !== undefined) {
                 if (user !== null) {
@@ -308,9 +307,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
         };
     } catch (error) {
         return {
-            props: {
-                uid: undefined,
-            }
-        }
+            props: {}
+        };
     }
 }

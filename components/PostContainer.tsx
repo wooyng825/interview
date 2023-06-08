@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { useDataStore } from "@/config/store";
 
 type Props = {
     key: number,
@@ -15,7 +14,7 @@ interface Post {
 
 export default function PostContainer({ index, data }: Props) {
     const router = useRouter();
-    const { userState } = useDataStore();
+
     const onClick = (e: any) => {
         const currentId = e.currentTarget.id;
         switch (currentId) {
@@ -23,14 +22,10 @@ export default function PostContainer({ index, data }: Props) {
                 router.push("/data");
                 break;
             case "6":
-                if (userState) {
-                    window.scroll({
-                        top: 0,
-                        behavior: 'smooth',
-                    })
-                } else {
-                    router.push("/sign");
-                }
+                window.scroll({
+                    top: 0,
+                    behavior: 'smooth',
+                })
                 break;
             default:
                 router.push("/test");

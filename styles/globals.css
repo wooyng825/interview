@@ -22,7 +22,7 @@ body::before {
     position: fixed;
     top: 0;
     left: 0;
-    opacity: 0.5;
+    opacity: 0.1;
     width: 100%;
     height: 100%;
     z-index: -10;
@@ -47,9 +47,9 @@ body::before {
 }
 
 @layer base {
-    body:before {
-        @apply blur-sm;
-    }
+    /* body:before {
+        @apply opacity-10;
+    } */
 
     .main-wrapper {
         @apply w-10/12 m-auto;

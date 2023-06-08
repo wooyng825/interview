@@ -42,13 +42,14 @@
     "components/TopBtn.tsx",
     "components/Upload.tsx",
     "pages/_app.tsx",
-    "pages/data.tsx",
+    "pages/dataset.tsx",
     "pages/index.tsx",
     "pages/sign.tsx",
     "pages/test.tsx",
     "config/firebaseAdmin.ts",
     "config/firebaseClient.ts",
-    "config/store.ts"
+    "config/store.ts",
+    "components/AuthProvider.tsx"
   ],
   "exclude": [
     "node_modules"

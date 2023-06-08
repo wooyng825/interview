@@ -1,5 +1,4 @@
 import { db } from "@/config/firebaseClient";
-import { DataType, useDataStore } from "@/config/store";
 import { get, ref, remove } from "firebase/database";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -9,7 +8,14 @@ import TestContainer from "@/components/TestContainer";
 import Controller from "@/components/Controller";
 import { toast } from "react-hot-toast";
 import DataContainer from "@/components/DataContainer";
+import { useAuth } from "@/components/AuthProvider";
+import { GetServerSidePropsContext } from "next";
+import nookies from 'nookies';
+import { admin } from "@/config/firebaseAdmin";
 
+type Props = {
+    uid: string
+};
 
 interface UserData {
     question: string,
@@ -17,29 +23,20 @@ interface UserData {
     time: string,
 }
 
-export default function Test() {
+export default function Test({ uid }: Props) {
     const router = useRouter();
-    const { userData } = useDataStore();
-    const [uid, setUid] = useState("");
+    const { user } = useAuth();
+    const [userId, setUserId] = useState<string>();
     const [count, setCount] = useState(0);
     const [savedCount, setSavedCount] = useState(0);
     const [showState, setShowState] = useState(false);
     const [horizontal, setHorizontal] = useState(false);
-    const [dataState, setDataState] = useState(false);
-    const [savedState, setSavedState] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [savedKeys, setSavedKeys] = useState<Array<string>>([]);
     const [dataList, setDataList] = useState<Array<UserData>>([]);
     const [savedList, setSavedList] = useState<Array<UserData>>([]);
 
-    const removeData = (id: string) => {
-        remove(ref(db, `users/${uid}/transcripts/${id}`)).then((_) => {
-            toast.success('해당 데이터 삭제 완료');
-        }).catch((_) => {
-            toast.error('데이터 삭제 오류');
-        });
-    };
-
+    // Web API 적용하기
     const setSynthesis = (data: string) => {
         if (!window.speechSynthesis) {
             toast.error('음성 재생을 지원하지 않는 브라우저입니다.\n크롬, 파이어폭스 등의 최신 브라우저를 이용해 주세요.');
@@ -110,12 +107,11 @@ export default function Test() {
         }
     };
 
-    // DB에서 데이터 가져오기
-    useEffect(() => {
-        const userId = userData.get(DataType.uid);
-        if (userId !== undefined) {
-            setUid(userId);
-            get(ref(db, `users/${userId}`)).then((snapshot) => {
+    // DB handler
+    const handleDB = {
+        LoadData: async () => {
+            let result = false;
+            await get(ref(db, `users/${userId ?? uid}`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     const answers: (string)[] = data['answers'];
@@ -135,7 +131,7 @@ export default function Test() {
 
                         const currentQuestion = results[count].question;
                         setSynthesis(currentQuestion);
-                        setDataState(true);
+                        result = true;
                     } else {
                         toast.error('데이터가 존재하지 않습니다.');
                     }
@@ -146,7 +142,11 @@ export default function Test() {
                 toast.error(`데이터 불러오기 오류 : ${error}`);
             });
 
-            get(ref(db, `users/${userId}/transcripts`)).then((snapshot) => {
+            return result;
+        },
+        LoadTranscript: async () => {
+            let result = false;
+            await get(ref(db, `users/${userId ?? uid}/transcripts`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     const keys = Object.keys(data);
@@ -156,7 +156,7 @@ export default function Test() {
                         results.push(data[keys[i]]);
                     }
                     setSavedList([...savedList, ...results]);
-                    setSavedState(true);
+                    result = true;
                 } else {
                     toast.error('데이터가 존재하지 않습니다.');
                 }
@@ -164,17 +164,45 @@ export default function Test() {
                 toast.error(`데이터 불러오기 오류 : ${error}`);
             });
 
-            if (dataState && savedState) {
-                toast.success('데이터 불러오기 완료');
-            }
-        } else {
-            toast.error('로그인이 필요합니다.');
-            router.push("/sign");
-        }
+            return result;
+        },
+        remove: (id: string) => {
+            remove(ref(db, `users/${userId}/transcripts/${id}`)).then((_) => {
+                toast.success('해당 데이터 삭제 완료');
+            }).catch((_) => {
+                toast.error('데이터 삭제 오류');
+            });
+        },
+    };
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        toast.loading('사용자 정보 불러오는 중..', { duration: 500 });
     }, []);
 
+    useEffect(() => {
+        setTimeout(async () => {
+            if (uid) {
+                if (user !== null) {
+                    toast.loading('데이터 불러오는 중..');
+                    setUserId(uid);
+                    const dataState = await handleDB.LoadData();
+                    const savedState = await handleDB.LoadTranscript();
+
+                    if (dataState && savedState) {
+                        toast.remove();
+                        toast.success('데이터 불러오기 완료');
+                    }
+                }
+            } else {
+                if (user === null) {
+                    toast.error('로그인이 필요합니다.');
+                    router.push('/');
+                }
+            }
+        }, 500);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user, uid]);
 
     useEffect(() => {
         const deleteBtns = document.querySelectorAll('.delete-btns');
@@ -184,7 +212,7 @@ export default function Test() {
             const removeTitle = data.title;
             const temp = [...savedList];
             const newList = temp.filter((value) => value.time != removeTitle);
-            removeData(removeId);
+            handleDB.remove(removeId);
             setSavedList([...newList]);
         }
         deleteBtns.forEach((value) => {
@@ -210,7 +238,7 @@ export default function Test() {
             <main className={`flex ${horizontal ? "" : "flex-col"}`}>
                 <div className="transcript-data fixed bottom-0 right-0 mx-auto w-1/3 opacity-80 flex flex-col items-center rounded-lg">
                     <section className="data-section w-11/12">
-                        <Controller uid={uid} value={dataList[count]} setSavedList={setSavedList} />
+                        <Controller uid={userId!} value={dataList[count]} setSavedList={setSavedList} />
                     </section>
                 </div>
                 <div className={`main-data ${horizontal ? "mr-2.5" : "mx-auto"} my-4 w-2/3 h-full flex flex-col items-center opacity-70 bg-yellow-300 border-2 border-amber-300 rounded-lg hover:scale-105 hover:opacity-100`} style={{ transition: "all .2s ease-in" }}>
@@ -268,4 +296,24 @@ export default function Test() {
             </main>
         </>
     );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    try {
+        const cookies = nookies.get(context);
+        const token = await admin.auth().verifyIdToken(cookies.token);
+        const { uid } = token;
+        return {
+            props: {
+                uid,
+            }
+        };
+    } catch (error) {
+        return {
+            redirect: {
+                destination: "/",
+                permanent: false,
+            }
+        };
+    }
 }

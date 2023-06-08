@@ -1,14 +1,12 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import Upload from "./Upload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faToggleOn, faToggleOff, faQuoteLeft, faQuoteRight, faArrowsRotate, faArrowUp, faArrowDown, faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { faToggleOn, faToggleOff, faQuoteLeft, faQuoteRight, faArrowsRotate, faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { ref, update } from "firebase/database";
 import { db } from "@/config/firebaseClient";
 import { toast } from "react-hot-toast";
 import Record from "./Record";
 import Whisper from "@/api/whisper";
-
-enum Display { upload, record };
 
 interface Props {
     uid: string,
@@ -90,7 +88,7 @@ export default function Controller({ uid, value, setSavedList }: Props) {
                     <button type="button" className="mx-1 opacity-60 hover:opacity-100 hover:scale-125" style={{ transition: "all .2s ease-in" }}
                         disabled={loading} onClick={handleClick.Transcript}>
                         {
-                            loading ? <FontAwesomeIcon icon={faArrowsRotate} className="fa-xl fa-beat-fade" /> : <FontAwesomeIcon icon={faArrowsRotate} className="fa-xl" />
+                            loading ? <FontAwesomeIcon icon={faArrowsRotate} className="fa-xl fa-spin" /> : <FontAwesomeIcon icon={faArrowsRotate} className="fa-xl" />
                         }
                     </button>
                     <button type="button" className="flex mx-auto px-3 py-1.5 font-extrabold text-white bg-sky-500 rounded-lg border-2 border-sky-500 hover:text-sky-500 hover:bg-white"

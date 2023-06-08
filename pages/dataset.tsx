@@ -3,13 +3,16 @@ import { ref, update, get } from 'firebase/database';
 import { db } from "@/config/firebaseClient";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { DataType, useDataStore } from '@/config/store';
-import { faCloudArrowUp, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 import DataContainer from '@/components/DataContainer';
 import { toast } from 'react-hot-toast';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuth } from '@/components/AuthProvider';
+import nookies from 'nookies';
+import { GetServerSidePropsContext } from 'next';
+import { admin } from '@/config/firebaseAdmin';
 
-enum State { init, load };
+type Props = {
+    uid: string,
+};
 
 interface HookFormTypes {
     question: string,
@@ -23,10 +26,10 @@ interface UserData {
     time: string,
 }
 
-export default function Data() {
+export default function DataSet({ uid }: Props) {
     const router = useRouter();
-    const { userData } = useDataStore();
-    const [uid, setUid] = useState("");
+    const { user } = useAuth();
+    const [userId, setUserId] = useState<string>();
     const [dataList, setDataList] = useState<Array<UserData>>([]);
     const { register, handleSubmit, reset } = useForm<HookFormTypes>();
 
@@ -43,64 +46,70 @@ export default function Data() {
         reset();
     }
 
+    // DB handler
     const handleDB = {
         Save: async (answers: (string)[], questions: (string)[]) => {
-            update(ref(db, `users/${uid}`), {
+            await update(ref(db, `users/${userId ?? uid}`), {
                 answers: answers,
                 questions: questions,
             }).then(() => {
-                toast.success('데이터 업데이트 완료');
-                handleDB.Load(State.load);
+                toast.success('데이터 저장 성공');
+                handleDB.Load();
             }).catch(() => {
-                toast.error('데이터 업데이트 오류');
+                toast.error('데이터 저장 실패');
             });
         },
-        Load: (state: State) => {
-            const userId = userData.get(DataType.uid);
-            if (userId !== undefined) {
-                get(ref(db, `users/${userId}`)).then((snapshot) => {
-                    if (snapshot.exists()) {
-                        const data = snapshot.val();
-                        const answers: (string)[] = data['answers'];
-                        const questions: (string)[] = data['questions'];
-                        const results: (UserData)[] = [];
-                        if (answers !== undefined) {
-                            for (let i = 0; i < answers.length; i++) {
-                                results.push({
-                                    id: i,
-                                    question: questions[i],
-                                    answer: answers[i],
-                                    time: '',
-                                });
-                            }
-                            setDataList([...results]);
-                            state == State.init ? toast.success('데이터 불러오기 완료') : null;
-                        } else {
-                            state == State.init ? toast.error('데이터가 존재하지 않습니다.') : null;
+        Load: async () => {
+            await get(ref(db, `users/${userId ?? uid}`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    const answers: (string)[] = data['answers'];
+                    const questions: (string)[] = data['questions'];
+                    const results: (UserData)[] = [];
+                    if (answers !== undefined) {
+                        for (let i = 0; i < answers.length; i++) {
+                            results.push({
+                                id: i,
+                                question: questions[i],
+                                answer: answers[i],
+                                time: '',
+                            });
                         }
-                    } else {
-                        state == State.init ? toast.error('데이터가 존재하지 않습니다.') : null;
-                    }
-                }).catch((error) => {
-                    toast.error(`데이터 불러오기 오류 : ${error}`);
-                });
-            } else {
-                toast.error('로그인이 필요합니다.');
-            }
+                        setDataList([...results]);
+                        toast.remove();
+                        toast.success('데이터 불러오기 완료');
+                    } else { toast.error('데이터가 존재하지 않습니다.'); }
+                } else {
+                    toast.error('데이터가 존재하지 않습니다.');
+                }
+            }).catch((error) => {
+                toast.error(`데이터 불러오기 오류 : ${error}`);
+            });
         },
     };
 
     useEffect(() => {
-        const userId = userData.get(DataType.uid);
-        if (userId !== undefined) {
-            setUid(userId);
-            handleDB.Load(State.init);
-        } else {
-            toast.error('로그인이 필요합니다.');
-            router.push('/sign');
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        toast.loading('사용자 정보 불러오는 중..', { duration: 500 });
     }, []);
+
+    useEffect(() => {
+        setTimeout(async () => {
+            if (uid) {
+                if (user !== null) {
+                    toast.loading('데이터 불러오는 중 ..');
+                    setUserId(uid);
+                    await handleDB.Load();
+                }
+            } else {
+                if (user === null) {
+                    toast.error('로그인이 필요합니다.');
+                    router.push('/');
+                }
+            }
+        }, 500);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user, uid]);
 
     useEffect(() => {
         const deleteBtn = document.querySelectorAll('.delete-btn');
@@ -122,7 +131,6 @@ export default function Data() {
         }
 
         const onEditClick = (e: any) => {
-
             const qInput: HTMLInputElement = document.querySelector('#question')!;
             const aInput: HTMLTextAreaElement = document.querySelector('#answer')!;
             const editParent = e.currentTarget.parentElement;
@@ -134,7 +142,12 @@ export default function Data() {
 
             if (editQuestion.innerText === '' || editAnswer.innerText === '') {
                 toast.error('데이터 오류');
-                return;
+
+                return () => {
+                    editBtn.forEach((value) => {
+                        value.removeEventListener("click", onEditClick);
+                    });
+                }
             }
             const temp = [...dataList];
             const newList = temp.filter((value) => value.id.toString() !== removeId);
@@ -203,3 +216,24 @@ export default function Data() {
         </>
     );
 }
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    try {
+        const cookies = nookies.get(context);
+        const token = await admin.auth().verifyIdToken(cookies.token);
+        const { uid } = token;
+
+        return {
+            props: {
+                uid
+            }
+        }
+    } catch (error) {
+        return {
+            redirect: {
+                destination: "/",
+                permanent: false,
+            }
+        }
+    }
+};

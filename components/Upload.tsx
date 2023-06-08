@@ -1,8 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotate, faTrash } from "@fortawesome/free-solid-svg-icons";
-import Whisper from "@/api/whisper";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
     setFile: Dispatch<SetStateAction<File | undefined>>,

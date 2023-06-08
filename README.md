@@ -36,7 +36,7 @@
 #### 〈 랜덤 질문 (Random Questions) & 답변 숨기기 (Hidden Ansnwers) 〉
 - 등록한 데이터의 순서에 관계없이 랜덤으로 보여줍니다.
 - 질문이나 주제에 대한 답변은 기본적으로 숨겨진 채로 보여지나 사용자가 원한다면 볼 수 있습니다.
-
+- Web Speech API를 활용하여 질문 또는 주제를 읽어주는 음성 재생 기능이 있습니다.
 ---
 
 #### 〈 녹음 (Record) 〉
@@ -52,12 +52,14 @@
 #### 〈 오디오 → 텍스트 변환 (Transcript) 〉
 - [**OpenAI - Whisper**](https://openai.com/research/whisper) 모델을 사용하여 녹음한 음성을 기반으로 변환한 텍스트를 볼 수 있습니다.
 - 실시간으로 녹음한 음성 뿐만 아니라 사전에 녹음된 음성파일도 업로드하여 변환할 수 있습니다.
+
 ---
 
 #### 〈 녹음 데이터 (Record Data) 〉
 - 파일 업로드 또는 음성 녹음을 기반으로 변환한 텍스트 + 질문(주제) + 저장 시간이 함께 저장된 데이터를 실시간으로 볼 수 있습니다.
 - 녹음 데이터를 삭제할 수 있습니다.
 
+---
 
 #### 〈 로그인 & 데이터베이스(DB) 연동 〉
 - **회원 기능**을 통해 관련 자료 & 음성 기반 텍스트 데이터 등을 저장할 수 있고  
@@ -88,7 +90,7 @@
 ### 2023.06.04
 - 데이터 수정 기능 추가
 - README 작성
-- 1.0 ver. 구현 완료
+- 1.0 ver. 업데이트 완료
 
 ### 2023.06.05
 - 녹음 시간 버그 수정
@@ -96,7 +98,7 @@
 - '녹음 데이터' 탭 추가
 - Web Speech API를 활용한 text-to-speech 구현 및 테스트
 - 음성 재생 아이콘 - 약간의 사용자 경험 개선 (speaking or not);
-- 1.1 ver. 구현 완료
+- 1.1 ver. 업데이트 완료
 
 # 2023.06.06
 - UI 일부 수정 및 개선
@@ -104,7 +106,23 @@
 - 페이지 별 영역 - 제목 추가
 - 페이지 좌우 여백 통일 (홈 제외)
 - 녹음 및 파일 업로드 / 텍스트 변환 관련 영역 위치 고정 (오른쪽 아래, toggle 형태)
-- 1.2 ver. 구현 완료
+- 1.2 ver. 업데이트 완료
+
+# 2023.06.07
+- getStaticProps(SSR)를 활용하여 데이터 패치 테스트 (For 렌더링 속도 개선)
+- Firebase Cli 문서를 통해 웹 프레임워크와 통합 기능(실험) 제공 → SSR 테스트
+- getServerSideProps 활용 → 클라이언트 렌더링 ▶ 서버 렌더링 일부 적용 (1차)
+- (로그인 / 회원가입) 페이지 → 홈 영역에 추가하여 통합
+- AuthProvider 생성 및 _app.tsx 추가 → Cookie에 token 저장
+- 기존에 사용하던 zustand 제거 → 'useAuth'(React Hook) 생성하여 전체적으로 활용
+- 2.0 ver. 업데이트 완료
+
+# 2023.06.08
+- 모든 페이지에 Server-Side Rendering 적용
+- Cookie에 저장된 token → 로그인 유지 기능에 활용
+- 사용자 정보 및 데이터 로딩 시간 확보 (500ms)
+- 데이터 로딩 중 문구 추가
+- 2.1 ver. 업데이트 완료
 
 <br />
 <br />
@@ -145,3 +163,11 @@
 - [Wep Speech API - JavaScript에서 쉽게 text-to-speech 기능 구현하기](https://javascript.plainenglish.io/how-to-easily-implement-text-to-speech-functionality-in-your-next-javascript-project-16f0d14432f0)
 
 - [Wep Speech API - Speech Synthesis를 이용한 text-to-speech 기능 구현](https://javascript.plainenglish.io/how-to-easily-implement-text-to-speech-functionality-in-your-next-javascript-project-16f0d14432f0)
+
+- [Next.js - Data Fetching : getStaticProps](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-props)
+
+- [Next.js getStaticProps 사용기](https://velog.io/@taeung/Next.js-getStaticProps-사용기)
+
+- [쿠키를 이용한 firebase 인증](https://colinhacks.com/essays/nextjs-firebase-authentication)
+
+- [Firebase 문서 - Next.js 통합](https://firebase.google.com/docs/hosting/frameworks/nextjs?hl=ko){:target="_blank"}

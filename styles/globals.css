@@ -18,7 +18,7 @@ body::before {
     position: fixed;
     top: 0;
     left: 0;
-    opacity: 0.15;
+    opacity: 0.25;
     width: 100%;
     height: 100%;
     z-index: -10;
@@ -35,25 +35,14 @@ body[data-page="/dataset"]::before {
     background-image: url(/images/abstract-lines.jpg);
 }
 
-body[data-page="/test"]::before {
+body[data-page="/practice"]::before {
     background-image: url(/images/microphone.jpg);
 }
 
-@keyframes breath-up {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.04);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
 @layer base {
+    nav {
+        @apply my-3 mx-auto p-4 rounded-2xl;
+    }
 
     .main-wrapper {
         @apply w-10/12 m-auto;
@@ -61,15 +50,34 @@ body[data-page="/test"]::before {
 }
 
 @layer components {
+    .ts {
+        transition: all .2s ease-in;
+    }
+
+    .post-box {
+        @apply bg-amber-100;
+    }
+
+    .content-box {
+        @apply bg-yellow-300;
+    }
+
+    /* navigation ------------------------------------- */
+    .main-nav {
+        @apply w-10/12;
+    }
+
     .nav-item {
-        @apply px-3 py-2 m-1 font-extrabold text-lg text-white;
+        @apply px-3 py-2 m-1 rounded-2xl font-extrabold text-2xl text-blue-400;
     }
 
     .nav-item.active,
     .nav-item:hover {
-        @apply px-3 py-2 text-sky-300 bg-white rounded-2xl;
+        @apply px-3 py-2 text-white bg-blue-400;
+        transition: all .2s ease-in;
     }
 
+    /* form & input ------------------------------------- */
     .input-box {
         @apply my-1 px-2 py-1 border-2 border-sky-300 rounded-lg text-lg;
         transition: all .2s ease-in-out;
@@ -77,14 +85,15 @@ body[data-page="/test"]::before {
 
     .input-box:focus {
         outline: none !important;
-        box-shadow: 0 0 5px blue;
+        box-shadow: 0 0 8px blue;
     }
 
     .submit-btn {
         @apply mx-1 px-4 py-2 font-bold rounded-lg;
+        cursor: pointer;
     }
 
-    .submit-btn {
-        cursor: pointer;
+    #formFile::file-selector-button {
+        @apply text-xs;
     }
 }

@@ -133,6 +133,16 @@
 - HTML 커스텀 데이터 속성 → 페이지 별 배경화면 설정
 - 2.2 ver. 업데이트 완료
 
+### 2023.06.10
+- 로그인 하지 않고 페이지 방문하면 server-side에서 redirect 하도록 수정 → 불필요한 클라이언트 렌더링 자제
+- addEventListener 사용 횟수 ▼ → case 별 맞춤형 함수 제공
+- server-side에서 정보가 제대로 넘어오지 않는 문제 (undefined) → 페이지 컴포넌트 이름 수정으로 임시 조치.. 좋은 개선 방향인가?
+- 네비게이션 페이지 이름 수정 : 테스트 → '연습실'
+- 페이지 이동 시, 300ms 대기 시간 추가 → 안정적인 데이터 패치 및 렌더링 시간 확보
+- 일부 색상 통일 및 스타일 변경 & 연습실 - 오디오 관련 컨트롤러 위치 변경
+- 오디오 관련 컨트롤러 UI 변경 → label 활용하여 사용자 경험 ▲
+- 2.3 ver. 업데이트 완료
+
 <br />
 <br />
 
@@ -153,12 +163,10 @@
 ## 주소: address
 - [https://interview-wooyng825.vercel.app](https://interview-wooyng825.vercel.app)
 
-
 <br />
 <br />
 
 ## 도움 받은 곳
-
 - [Nextjs - Fontawesome 설치 및 적용](https://record22.tistory.com/132)
 
 - [Nextjs - 전역 변수 관리 zustand 입문](https://velog.io/@yhg0337/zustand-Nextjs-시작계기)
@@ -194,3 +202,5 @@
 - [Vercel 문서 - 환경 변수](https://vercel.com/docs/concepts/projects/environment-variables)
 
 - [HTML태그에 커스텀 데이터 속성 설정](https://velog.io/@gga01075/HTML태그에-나만의-커스텀-속성-추가하기-ppec05qv)
+
+- [HTML - input 태그에서 placeholder보다 label을 활용해야 하는 이유](https://ibrahimovic.tistory.com/30)

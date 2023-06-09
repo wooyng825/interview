@@ -45,7 +45,7 @@
     "pages/dataset.tsx",
     "pages/index.tsx",
     "pages/sign.tsx",
-    "pages/test.tsx",
+    "pages/practice.tsx",
     "config/firebaseAdmin.ts",
     "config/firebaseClient.ts",
     "config/store.ts",

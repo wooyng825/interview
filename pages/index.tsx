@@ -59,9 +59,9 @@ export default function Home({ uid, homePost }: Props) {
                 auth,
                 data.email,
                 data.pw,
-            ).then(async () => {
+            ).then((res) => {
                 toast.success('로그인 성공!');
-                router.push("/");
+                router.push("/", undefined, { shallow: true });
             }).catch((error) => {
                 handleAuth.error(error.code, Type.signIn);
             });
@@ -162,7 +162,7 @@ export default function Home({ uid, homePost }: Props) {
                 </main>
             </section>
             <div className="flex flex-col px-5 py-10">
-                <section className='flex flex-wrap justify-evenly mx-auto'>
+                <section className='flex flex-wrap justify-around mx-auto'>
                     {
                         post.length === 0 ? null :
                             post.map((data, index) => {

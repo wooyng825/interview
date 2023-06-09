@@ -20,8 +20,7 @@ interface UserData {
     time: string,
 }
 
-export default function Test({ uid }: Props) {
-    const router = useRouter();
+export default function Practice({ uid }: Props) {
     const { user } = useAuth();
     const [userId, setUserId] = useState<string>();
     const [count, setCount] = useState(0);
@@ -29,6 +28,7 @@ export default function Test({ uid }: Props) {
     const [showState, setShowState] = useState(false);
     const [horizontal, setHorizontal] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
+    const [scrollState, setScrollState] = useState(false);
     const [savedKeys, setSavedKeys] = useState<Array<string>>([]);
     const [dataList, setDataList] = useState<Array<UserData>>([]);
     const [savedList, setSavedList] = useState<Array<UserData>>([]);
@@ -56,6 +56,12 @@ export default function Test({ uid }: Props) {
         };
     };
 
+    // scroll handler
+    const handleScroll = () => {
+        window.scrollY > 10 ? setScrollState(true) : setScrollState(false);
+    };
+
+    // Click handler
     const handleClick = {
         Increase: () => {
             if (count < dataList.length - 1) {
@@ -106,8 +112,9 @@ export default function Test({ uid }: Props) {
 
     // DB handler
     const handleDB = {
-        LoadData: async () => {
-            let result = false;
+        Load: async () => {
+            let firstRes = false;
+            let secondRes = false;
             await get(ref(db, `users/${userId ?? uid}`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
@@ -124,11 +131,11 @@ export default function Test({ uid }: Props) {
                             });
                         }
                         results.sort(() => Math.random() - 0.5);
+                        firstRes = !firstRes;
                         setDataList([...results]);
 
                         const currentQuestion = results[count].question;
                         setSynthesis(currentQuestion);
-                        result = true;
                     } else {
                         toast.error('데이터가 존재하지 않습니다.');
                     }
@@ -139,10 +146,6 @@ export default function Test({ uid }: Props) {
                 toast.error(`데이터 불러오기 오류 : ${error}`);
             });
 
-            return result;
-        },
-        LoadTranscript: async () => {
-            let result = false;
             await get(ref(db, `users/${userId ?? uid}/transcripts`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
@@ -153,7 +156,7 @@ export default function Test({ uid }: Props) {
                         results.push(data[keys[i]]);
                     }
                     setSavedList([...savedList, ...results]);
-                    result = true;
+                    secondRes = !secondRes;
                 } else {
                     toast.error('데이터가 존재하지 않습니다.');
                 }
@@ -161,7 +164,7 @@ export default function Test({ uid }: Props) {
                 toast.error(`데이터 불러오기 오류 : ${error}`);
             });
 
-            return result;
+            return firstRes && secondRes;
         },
         remove: (id: string) => {
             remove(ref(db, `users/${userId ?? uid}/transcripts/${id}`)).then((_) => {
@@ -174,26 +177,22 @@ export default function Test({ uid }: Props) {
 
     useEffect(() => {
         toast.loading('사용자 정보 불러오는 중..', { duration: 500 });
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => { window.removeEventListener("scroll", handleScroll) };
     }, []);
 
     useEffect(() => {
         setTimeout(async () => {
-            if (uid !== undefined) {
-                if (user !== null) {
-                    toast.loading('데이터 불러오는 중..');
-                    setUserId(user.uid);
-                    const dataState = await handleDB.LoadData();
-                    const savedState = await handleDB.LoadTranscript();
+            if (user !== null) {
+                toast.loading('데이터 불러오는 중..');
+                setUserId(user.uid);
+                const dataState = await handleDB.Load();
 
-                    if (dataState && savedState) {
-                        toast.remove();
-                        toast.success('데이터 불러오기 완료');
-                    }
-                }
-            } else {
-                if (user === null) {
-                    toast.error('로그인이 필요합니다.');
-                    router.push('/');
+                if (dataState) {
+                    toast.remove();
+                    toast.success('데이터 불러오기 완료');
                 }
             }
         }, 500);
@@ -227,18 +226,18 @@ export default function Test({ uid }: Props) {
     return (
         <>
             <div className="text-right">
-                <button onClick={handleClick.Horizontal} style={{ transition: "all .2s ease-in" }}
-                    className="px-3 py-2 font-bold rounded-lg text-sky-300 bg-white border-2 border-sky-300 hover:text-white hover:bg-sky-300">
+                <button onClick={handleClick.Horizontal}
+                    className={`fixed ${scrollState ? "bottom-32" : "bottom-10"} right-10 px-3 py-2 font-bold rounded-full text-sky-300 bg-white border-2 border-sky-300 hover:text-white hover:bg-sky-300`}>
                     {horizontal ? "가로 보기" : "세로 보기"}
                 </button>
             </div>
             <main className={`flex ${horizontal ? "" : "flex-col"}`}>
-                <div className="transcript-data fixed bottom-0 right-0 mx-auto w-1/3 opacity-80 flex flex-col items-center rounded-lg">
+                <div className="transcript-data fixed bottom-0 left-0 mx-auto w-96 z-10 flex flex-col items-center rounded-lg">
                     <section className="data-section w-11/12">
                         <Controller uid={userId!} value={dataList[count]} setSavedList={setSavedList} />
                     </section>
                 </div>
-                <div className={`main-data ${horizontal ? "mr-2.5" : "mx-auto"} my-4 w-2/3 h-full flex flex-col items-center opacity-70 bg-yellow-300 border-2 border-amber-300 rounded-lg hover:scale-105 hover:opacity-100`} style={{ transition: "all .2s ease-in" }}>
+                <div className={`main-data ts ${horizontal ? "mr-2.5" : "mx-auto"} my-4 w-2/3 h-full flex flex-col items-center opacity-80 bg-yellow-300 border-2 border-amber-300 rounded-2xl hover:scale-105 hover:opacity-100`}>
                     <h2 className="p-3 italic text-xl">{"Random Questions"}</h2>
                     <section className="data-section mx-auto my-4 w-10/12">
                         {dataList.length === 0 ? null :
@@ -270,7 +269,7 @@ export default function Test({ uid }: Props) {
                         }
                     </section>
                 </div>
-                <div className={`saved-data ${horizontal ? "ml-2.5" : "mx-auto"} my-4 w-2/3 h-full flex flex-col items-center opacity-70 bg-yellow-300 border-2 border-amber-300 rounded-lg hover:scale-105 hover:opacity-100`} style={{ transition: "all .2s ease-in" }}>
+                <div className={`saved-data ts ${horizontal ? "ml-2.5" : "mx-auto"} my-4 w-2/3 h-full flex flex-col items-center opacity-80 bg-yellow-300 border-2 border-amber-300 rounded-2xl hover:scale-105 hover:opacity-100`}>
                     <h2 className="p-3 italic text-xl">{"Record Data"}</h2>
                     <section className="data-section mx-0 my-4 w-10/12">
                         <div className="flex justify-center items-center">
@@ -295,11 +294,12 @@ export default function Test({ uid }: Props) {
     );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext): Promise<{ props: {} }> {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
     try {
         const cookies = nookies.get(context);
         const token = await admin.auth().verifyIdToken(cookies.token);
         const { uid } = token;
+
         return {
             props: {
                 uid: uid,
@@ -307,7 +307,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
         };
     } catch (error) {
         return {
-            props: {}
+            redirect: {
+                destination: "/",
+                permanent: false,
+            }
         };
     }
-}
+};

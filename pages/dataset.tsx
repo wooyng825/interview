@@ -24,7 +24,6 @@ interface UserData {
 }
 
 export default function DataSet({ uid }: Props) {
-    const router = useRouter();
     const { user } = useAuth();
     const [userId, setUserId] = useState<string>();
     const [dataList, setDataList] = useState<Array<UserData>>([]);
@@ -91,17 +90,10 @@ export default function DataSet({ uid }: Props) {
 
     useEffect(() => {
         setTimeout(() => {
-            if (uid !== undefined) {
-                if (user !== null) {
-                    toast.loading('데이터 불러오는 중 ..');
-                    setUserId(user.uid);
-                    handleDB.Load();
-                }
-            } else {
-                if (user === null) {
-                    toast.error('로그인이 필요합니다.');
-                    router.push('/');
-                }
+            if (user !== null) {
+                toast.loading('데이터 불러오는 중 ..');
+                setUserId(user.uid);
+                handleDB.Load();
             }
         }, 500);
 
@@ -189,13 +181,13 @@ export default function DataSet({ uid }: Props) {
                                 {...register("answer", { required: true })}></textarea>
                         </div>
                         <div className="m-2">
-                            <button type="submit" className="submit-btn text-white bg-sky-500 border-2 border-sky-500 hover:text-sky-500 hover:bg-white"
-                                onClick={handleSubmit(onValid)} style={{ transition: "all .2s ease-in", }}>Save</button>
+                            <button type="submit" className="submit-btn ts text-white bg-blue-500 border-2 border-blue-500 hover:text-blue-500 hover:bg-white"
+                                onClick={handleSubmit(onValid)}>Save</button>
                         </div>
                     </form>
                 </section>
                 <div className="m-10">
-                    <div className="w-3/4 mx-auto flex flex-col items-center bg-yellow-300 rounded-lg opacity-90">
+                    <div className="content-box w-3/4 mx-auto flex flex-col items-center rounded-lg opacity-90">
                         <span className="p-4 italic text-xl">{"Saved Data"}</span>
                         <section className="w-10/12 mx-auto my-10">
                             {
@@ -214,7 +206,7 @@ export default function DataSet({ uid }: Props) {
     );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext): Promise<{ props: {} }> {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
     try {
         const cookies = nookies.get(context);
         const token = await admin.auth().verifyIdToken(cookies.token);
@@ -227,7 +219,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
         };
     } catch (error) {
         return {
-            props: {}
-        }
+            redirect: {
+                destination: "/",
+                permanent: false,
+            },
+        };
     }
 };

@@ -147,7 +147,7 @@
 - Footer 생성 → Github 및 Contact 연동
 - Footer 위치 → 하단 고정
 - Contact 클릭 → 이메일 플랫폼 선택 제공
-- _document를 이용한 커스터마이징 & metadata를 활용한 Seo 최적화 진행
+- _document를 이용한 공통 레이아웃 설정 & metadata를 활용한 seo 최적화 진행
 - 로그인 시 인사말 추가한 메세지 출력
 - 3.0 ver. 업데이트 완료
 
@@ -163,27 +163,44 @@
 <br />
 <br />
 
-## 기술: Techs
+## 기술: Stacks
+
+
+> #### 언어 (Language)
 [<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">](https://www.typescriptlang.org/)
+
+<br />
+
+> #### 프레임워크 (Framework)
 [<img src="https://img.shields.io/badge/NextJS-000000?style=for-the-badge&logo=next.js&logoColor=white">](https://nextjs.org/)
 [<img src="https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">](https://tailwindcss.com/)
+
 <br />
+
+> #### 데이터베이스 (DB)
 [<img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">](https://firebase.google.com/)
-[<img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white">](https://openai.com/)
-[<img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">](https://vercel.com/)
+
 <br />
+
+> #### 배포 (Deploy)
+[<img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">](https://vercel.com/)
+
+<br />
+
+> #### 기타 (AI & Font etc.)
+[<img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white">](https://openai.com/)
 [<img src="https://img.shields.io/badge/Font Awesome-528DD7?style=for-the-badge&logo=fontawesome&logoColor=white">](https://fontawesome.com/)
 
 <br />
 <br />
 
-## 주소: URL
+## 바로가기 : Shortcuts
 - [https://interview-wooyng825.vercel.app](https://interview-wooyng825.vercel.app)
 
 <br />
 <br />
 
-## 도움 받은 곳
+## 도움 받은 곳 : Where get help
 
 - [Nextjs - Fontawesome 설치 및 적용](https://record22.tistory.com/132)
 

@@ -11,6 +11,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { GetServerSidePropsContext } from 'next';
 import { admin } from '@/config/firebaseAdmin';
 import nookies from 'nookies';
+import Head from 'next/head';
 
 enum Type { signIn, signUp };
 
@@ -41,6 +42,15 @@ export default function Home({ uid, homePost }: Props) {
     const { user } = useAuth();
     const [post, setPost] = useState<Array<Post>>([]);
     const { register, handleSubmit, reset } = useForm<HookFormTypes>();
+
+    const greetings = [
+        '당신의 꿈과 열정을 응원합니다.',
+        '좋은 하루 보내세요!',
+        '방문해주셔서 감사합니다.',
+        '지금처럼 한 걸음씩 나아가길 바랍니다.',
+        '포기하지 않는 한 꿈은 이루어집니다.',
+
+    ];
 
     const onValid = {
         signIn: (data: HookFormTypes) => {
@@ -139,9 +149,23 @@ export default function Home({ uid, homePost }: Props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        if (user && uid) {
+            const randomIndex = Math.floor(Math.random() * greetings.length);
+            toast.success(`${user.email}님, \n${greetings[randomIndex]}`, { style: { textAlign: "center", fontWeight: "bold" } });
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user, uid]);
+
     return (
         <>
-            <section className={`${uid !== undefined && user !== null ? "hidden" : ""} py-20 mx-auto my-40 w-1/2 opacity-80 text-center bg-white border-2 border-sky-500 rounded-lg`}>
+            <Head>
+                <title>{"홈 | For-Interview"}</title>
+                <meta property="og:title" content="홈 | For-Interview" key="title" />
+                <meta property="og:image" content="/images/interview.jpg" />
+            </Head>
+            <section className={`${user !== null ? "hidden" : ""} py-20 mx-auto my-40 w-1/2 opacity-80 text-center bg-white border-2 border-sky-500 rounded-lg`}>
                 <main>
                     <form className="flex justify-center">
                         <div className="flex w-1/2 flex-col m-0">

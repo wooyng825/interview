@@ -13,6 +13,7 @@ import { GetServerSidePropsContext } from "next";
 import nookies from 'nookies';
 import { admin } from "@/config/firebaseAdmin";
 import { Props } from ".";
+import Head from "next/head";
 
 interface UserData {
     question: string,
@@ -225,6 +226,12 @@ export default function Practice({ uid }: Props) {
 
     return (
         <>
+            <Head>
+                <title>{"연습실 | For-Interview"}</title>
+                <meta name="description" content="For-Interview : 설정 데이터 기반으로 연습하는 페이지" />
+                <meta property="og:title" content="연습실 | For-Interview" key="title" />
+                <meta property="og:image" content="/images/microphone.jpg" />
+            </Head>
             <div className="text-right">
                 <button onClick={handleClick.Horizontal}
                     className={`fixed ${scrollState ? "bottom-32" : "bottom-10"} right-10 px-3 py-2 font-bold rounded-full text-sky-300 bg-white border-2 border-sky-300 hover:text-white hover:bg-sky-300`}>
@@ -232,7 +239,7 @@ export default function Practice({ uid }: Props) {
                 </button>
             </div>
             <main className={`flex ${horizontal ? "" : "flex-col"}`}>
-                <div className="transcript-data fixed bottom-0 left-0 mx-auto w-96 z-10 flex flex-col items-center rounded-lg">
+                <div className="transcript-data fixed bottom-5 left-0 mx-auto w-96 z-10 flex flex-col items-center rounded-lg">
                     <section className="data-section w-11/12">
                         <Controller uid={userId!} value={dataList[count]} setSavedList={setSavedList} />
                     </section>

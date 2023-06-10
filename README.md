@@ -143,6 +143,23 @@
 - 오디오 관련 컨트롤러 UI 변경 → label 활용하여 사용자 경험 ▲
 - 2.3 ver. 업데이트 완료
 
+### 2023.06.11
+- Footer 생성 → Github 및 Contact 연동
+- Footer 위치 → 하단 고정
+- Contact 클릭 → 이메일 플랫폼 선택 제공
+- _document를 이용한 커스터마이징 & metadata를 활용한 Seo 최적화 진행
+- 로그인 시 인사말 추가한 메세지 출력
+- 3.0 ver. 업데이트 완료
+
+<br />
+
+- 이미지 출처
+  - [네이버 로고](https://logoproject.naver.com/logonaver)
+  - [다음 로고](https://creativestudio.kr/2810)
+  - [카카오 로고](https://creativestudio.kr/822#)
+  - [구글 로고](https://www.blog.google/press/)
+  - [마이크로소프트 로고](https://rogorogo.tistory.com/1068)
+
 <br />
 <br />
 
@@ -160,13 +177,14 @@
 <br />
 <br />
 
-## 주소: address
+## 주소: URL
 - [https://interview-wooyng825.vercel.app](https://interview-wooyng825.vercel.app)
 
 <br />
 <br />
 
 ## 도움 받은 곳
+
 - [Nextjs - Fontawesome 설치 및 적용](https://record22.tistory.com/132)
 
 - [Nextjs - 전역 변수 관리 zustand 입문](https://velog.io/@yhg0337/zustand-Nextjs-시작계기)
@@ -204,3 +222,9 @@
 - [HTML태그에 커스텀 데이터 속성 설정](https://velog.io/@gga01075/HTML태그에-나만의-커스텀-속성-추가하기-ppec05qv)
 
 - [HTML - input 태그에서 placeholder보다 label을 활용해야 하는 이유](https://ibrahimovic.tistory.com/30)
+
+- [Next.js - Customizing (renderPage)](https://nextjs.org/docs/pages/building-your-application/routing/custom-document)
+
+- [받는주소 지정해서 네이버 메일 페이지 열기](https://m.blog.naver.com/mcgyber1/220762022300)
+
+- [Next.js - Image Components](https://nextjs.org/docs/pages/api-reference/components/image)

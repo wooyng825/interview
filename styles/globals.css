@@ -39,13 +39,38 @@ body[data-page="/practice"]::before {
     background-image: url(/images/microphone.jpg);
 }
 
+@keyframes backInUp {
+    0% {
+        top: 150%;
+    }
+
+    100% {
+        top: 50%;
+    }
+}
+
+@keyframes backOutDown {
+    0% {
+        top: 50%;
+    }
+
+    100% {
+        top: 150%;
+    }
+}
+
 @layer base {
     nav {
         @apply my-3 mx-auto p-4 rounded-2xl;
     }
 
     .main-wrapper {
-        @apply w-10/12 m-auto;
+        @apply w-5/6 m-auto;
+        height: 100%;
+    }
+
+    footer {
+        @apply flex w-5/6 p-4 mx-auto my-24 justify-between relative translate-y-full;
     }
 }
 
@@ -95,5 +120,27 @@ body[data-page="/practice"]::before {
 
     #formFile::file-selector-button {
         @apply text-xs;
+    }
+
+    /* Modal Container */
+    .select-box {
+        @apply p-4 rounded-2xl fixed z-50 left-1/2 -translate-x-1/2 -translate-y-1/2;
+        animation-duration: .5s;
+    }
+
+    .select-box[data-select="true"] {
+        animation-name: backInUp;
+    }
+
+    .select-box[data-select="false"] {
+        animation-name: backOutDown;
+    }
+
+    .select-part {
+        @apply flex justify-around items-center w-80 mx-2 my-1 px-4 py-3 rounded-lg;
+    }
+
+    .select-part:hover {
+        transform: scale(1.05);
     }
 }

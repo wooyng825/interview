@@ -109,12 +109,12 @@ export default function Controller({ uid, value, setSavedList }: Props) {
                         }
                     </section>
 
-                    <div className="p-3 font-bold text-black bg-white rounded-lg border-2 grow overflow-auto">
+                    <div className="p-3 m-2 h-40 font-bold text-black bg-white rounded-lg border-2 border-blue-500 grow overflow-auto">
                         {
-                            <div className="flex justify-center items-center h-full">
-                                <FontAwesomeIcon icon={faQuoteLeft} className="mx-4 opacity-20" />
+                            <div className="flex justify-center items-start">
+                                <FontAwesomeIcon icon={faQuoteLeft} className="mx-2 opacity-20" />
                                 <p className="text-sm">{transcript ? transcript : loading ? "텍스트 변환 중.." : null}</p>
-                                <FontAwesomeIcon icon={faQuoteRight} className="mx-4 opacity-20" />
+                                <FontAwesomeIcon icon={faQuoteRight} className="mx-2 opacity-20" />
                             </div>
                         }
                     </div>
@@ -123,7 +123,7 @@ export default function Controller({ uid, value, setSavedList }: Props) {
                     id="toggle-handler"
                     onClick={handleClick.Toggle}
                     style={{ transform: `translateX(${showing ? 0 : -weight}px)` }}
-                    className="fa-xl ts px-3 py-2 mt-5 text-white bg-sky-500 border border-l-0 border-sky-500 rounded-r-lg hover:text-sky-500 hover:bg-white hover:cursor-pointer" />
+                    className="fa-xl ts p-2 mt-5 text-white bg-sky-500 border border-l-0 border-sky-500 rounded-r-lg hover:text-sky-500 hover:bg-white hover:cursor-pointer" />
             </div>
         </>
     );

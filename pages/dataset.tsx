@@ -10,6 +10,7 @@ import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 import { admin } from '@/config/firebaseAdmin';
 import { Props } from '.';
+import Head from 'next/head';
 
 interface HookFormTypes {
     question: string,
@@ -171,6 +172,12 @@ export default function DataSet({ uid }: Props) {
 
     return (
         <>
+            <Head>
+                <title>{"데이터 설정 | For-Interview"}</title>
+                <meta name="description" content="For-Interview : 데이터를 설정하는 페이지" />
+                <meta property="og:title" content="데이터 설정 | For-Interview" key="title" />
+                <meta property="og:image" content="/images/abstract-lines.jpg" />
+            </Head>
             <main className="m-10">
                 <section className="m-10">
                     <form className="flex flex-col items-center">

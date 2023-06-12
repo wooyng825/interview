@@ -30,7 +30,7 @@ export default function Nav() {
 
     return (
         <>
-            <nav className="main-nav relative">
+            <nav className="main-nav relative flex flex-wrap">
                 <Link href="/" legacyBehavior>
                     <a className={`${"nav-item"} ${router.pathname === '/' ? 'active' : ''}`}>홈</a>
                 </Link>

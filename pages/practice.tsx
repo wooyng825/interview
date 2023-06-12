@@ -196,6 +196,7 @@ export default function Practice({ uid }: Props) {
                 const dataState = await handleDB.Load();
 
                 if (dataState) {
+                    toast.remove();
                     toast.success('데이터 불러오기 완료');
                 }
             }

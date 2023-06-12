@@ -132,11 +132,11 @@ body[data-page="/practice"]::before {
     }
 
     #user-section {
-        @apply flex flex-col justify-between top-1/3 right-5;
+        @apply flex flex-col-reverse justify-between top-2/3 right-5;
     }
 
     #user-section>span {
-        @apply text-sm flex flex-col;
+        @apply text-sm flex mt-4;
     }
 
     .nav-item {
@@ -219,15 +219,15 @@ body[data-page="/practice"]::before {
     }
 
     #user-section {
-        @apply flex flex-col justify-between top-1/3 right-0;
+        @apply flex flex-col-reverse justify-between top-3/4 right-0;
     }
 
     #user-section>span {
-        @apply text-xs flex flex-col;
+        @apply text-xs flex mt-1;
     }
 
     #sign-btn {
-        @apply text-base px-2 py-1 mt-2 -mb-4;
+        @apply text-base px-2 py-1;
     }
 
     #sign-section {

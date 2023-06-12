@@ -128,18 +128,23 @@ export default function Practice({ uid }: Props) {
                             });
                         }
                         results.sort(() => Math.random() - 0.5);
-                        firstRes = !firstRes;
+                        firstRes = true;
                         setDataList([...results]);
 
                         const currentQuestion = results[count].question;
                         setSynthesis(currentQuestion);
                     } else {
-                        toast.error('데이터가 존재하지 않습니다.');
+                        toast.remove();
+                        firstRes = true;
+                        toast.error('저장된 Q & A 데이터가 존재하지 않습니다.');
                     }
                 } else {
-                    toast.error('데이터가 존재하지 않습니다.');
+                    toast.remove();
+                    firstRes = true;
+                    toast.error('저장된 Q & A 데이터가 존재하지 않습니다.');
                 }
             }).catch((error) => {
+                toast.remove();
                 toast.error(`데이터 불러오기 오류 : ${error}`);
             });
 
@@ -153,11 +158,14 @@ export default function Practice({ uid }: Props) {
                         results.push(data[keys[i]]);
                     }
                     setSavedList([...savedList, ...results]);
-                    secondRes = !secondRes;
+                    secondRes = true;
                 } else {
-                    toast.error('데이터가 존재하지 않습니다.');
+                    toast.remove();
+                    toast.error('저장된 녹음 데이터가 존재하지 않습니다.');
+                    secondRes = true;
                 }
             }).catch((error) => {
+                toast.remove();
                 toast.error(`데이터 불러오기 오류 : ${error}`);
             });
 
@@ -188,7 +196,6 @@ export default function Practice({ uid }: Props) {
                 const dataState = await handleDB.Load();
 
                 if (dataState) {
-                    toast.remove();
                     toast.success('데이터 불러오기 완료');
                 }
             }

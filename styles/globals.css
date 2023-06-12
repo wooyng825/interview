@@ -219,7 +219,7 @@ body[data-page="/practice"]::before {
     }
 
     #user-section {
-        @apply flex flex-col-reverse justify-between top-3/4 right-0;
+        @apply flex flex-col-reverse justify-between top-2/3 right-5;
     }
 
     #user-section>span {

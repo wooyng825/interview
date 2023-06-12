@@ -132,7 +132,7 @@ body[data-page="/practice"]::before {
     }
 
     #user-section {
-        @apply flex flex-col-reverse justify-between top-2/3 right-5;
+        @apply flex flex-col-reverse justify-between top-2/3 right-5 -z-10;
     }
 
     #user-section>span {
@@ -219,7 +219,7 @@ body[data-page="/practice"]::before {
     }
 
     #user-section {
-        @apply flex flex-col-reverse justify-between top-2/3 right-5;
+        @apply flex flex-col-reverse justify-between top-2/3 right-5 -z-10;
     }
 
     #user-section>span {

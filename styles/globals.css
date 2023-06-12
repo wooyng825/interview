@@ -121,8 +121,8 @@ body[data-page="/practice"]::before {
         @apply w-11/12;
     }
 
-    nav {
-        @apply w-full;
+    .main-nav {
+        @apply w-11/12;
     }
 
     .nav-item,
@@ -208,8 +208,8 @@ body[data-page="/practice"]::before {
         @apply w-full;
     }
 
-    nav {
-        @apply w-full;
+    .main-nav {
+        width: 96%;
     }
 
     .nav-item,

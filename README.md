@@ -182,6 +182,14 @@
 - 로그인 시 나타나는 유저 정보 위치 개선 → 기본 = 유지 / 태블릿 이하 = 로그인(로그아웃) 버튼 아래
 - 3.1 ver. 업데이트 완료
 
+### 2023.06.13
+
+- Footer 정보 업데이트 (author / email)
+- Contact 이메일 수정
+- 데이터 설정 페이지 - 저장 시 안내 메시지 겹치는 문제 수정
+- 가로보기 / 세로보기 버튼 z-index 값 수정
+- 3.2 ver. 업데이트 완료
+
 <br />
 
 ### 기업 CI(Coperation Identity) 이미지 출처
@@ -190,7 +198,6 @@
 - [다음 로고](https://creativestudio.kr/2810)
 - [카카오 로고](https://creativestudio.kr/822#)
 - [구글 로고](https://www.blog.google/press/)
-- [마이크로소프트 로고](https://rogorogo.tistory.com/1068)
 
 <br />
 <br />

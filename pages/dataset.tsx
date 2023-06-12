@@ -71,9 +71,8 @@ export default function DataSet({ uid }: Props) {
                                 time: '',
                             });
                         }
+                        dataList.length === 0 ? toast.success('데이터 불러오기 완료') : null;
                         setDataList([...results]);
-                        toast.remove();
-                        toast.success('데이터 불러오기 완료');
                     } else { toast.error('데이터가 존재하지 않습니다.'); }
                 } else {
                     toast.error('데이터가 존재하지 않습니다.');

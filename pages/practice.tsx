@@ -112,6 +112,7 @@ export default function Practice({ uid }: Props) {
         Load: async () => {
             let firstRes = false;
             let secondRes = false;
+
             await get(ref(db, `users/${userId ?? uid}`)).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
@@ -233,7 +234,7 @@ export default function Practice({ uid }: Props) {
             <Headmeta title={"연습실"} url={"https://interview.bluecoder.dev/practice"} imageUrl={"/images/microphone.jpg"} />
             <div id="horizontal-btn" className="text-right">
                 <button onClick={handleClick.ToggleHorizontal}
-                    className={`fixed ${scrollState ? "bottom-28" : "bottom-10"} right-10 px-3 py-2 font-bold rounded-full text-sky-300 bg-white border-2 border-sky-300 hover:text-white hover:bg-sky-300`}>
+                    className={`fixed ${scrollState ? "bottom-28" : "bottom-10"} right-10 px-3 py-2 z-10 font-bold rounded-full text-sky-300 bg-white border-2 border-sky-300 hover:text-white hover:bg-sky-300`}>
                     {horizontal ? "가로 보기" : "세로 보기"}
                 </button>
             </div>

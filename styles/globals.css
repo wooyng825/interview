@@ -44,7 +44,7 @@ body[data-page="/practice"]::before {
     }
 
     footer {
-        @apply flex w-5/6 p-4 mx-auto justify-between relative translate-y-full;
+        @apply flex w-4/5 h-28 p-4 mx-auto justify-between relative translate-y-full;
     }
 }
 

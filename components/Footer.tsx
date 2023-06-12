@@ -30,7 +30,7 @@ export default function Footer({ setShowSelect }: Props) {
                         <span className="font-bold">{"Contact:"}</span>&nbsp;
                         {`${author}@naver.com`}</span>
                 </div>
-                <span>{`ⓒ${times} ${author}  All rights reversed.`}</span>
+                <span className="flex flex-wrap break-keep">{`ⓒ${times} ${author}`}&nbsp;{"All rights reversed."}</span>
             </footer>
         </>
     );

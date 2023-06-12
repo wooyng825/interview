@@ -17,10 +17,7 @@ export default class MyDocument extends Document {
     render() {
         return (
             <Html lang="ko">
-                <Head>
-                    <meta name="description" content="면접이나 인터뷰를 준비하는 사람들을 위한 페이지" />
-                    <meta name="keywords" content="interview, practice, preparation, project, challenge" />
-                </Head>
+                <Head />
                 <body>
                     <Main />
                     <NextScript />

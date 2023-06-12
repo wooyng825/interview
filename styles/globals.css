@@ -3,14 +3,9 @@
 @tailwind utilities;
 
 html,
-body,
-#__next {
+body {
     width: 100%;
     height: 100%;
-}
-
-.hidden {
-    display: none;
 }
 
 body::before {
@@ -39,38 +34,17 @@ body[data-page="/practice"]::before {
     background-image: url(/images/microphone.jpg);
 }
 
-@keyframes backInUp {
-    0% {
-        top: 150%;
-    }
-
-    100% {
-        top: 50%;
-    }
-}
-
-@keyframes backOutDown {
-    0% {
-        top: 50%;
-    }
-
-    100% {
-        top: 150%;
-    }
-}
-
 @layer base {
     nav {
         @apply my-3 mx-auto p-4 rounded-2xl;
     }
 
     .main-wrapper {
-        @apply w-5/6 m-auto;
-        height: 100%;
+        @apply w-5/6 pb-40 m-auto min-h-full h-auto;
     }
 
     footer {
-        @apply flex w-5/6 p-4 mx-auto my-24 justify-between relative translate-y-full;
+        @apply flex w-5/6 p-4 mx-auto justify-between relative translate-y-full;
     }
 }
 
@@ -102,6 +76,10 @@ body[data-page="/practice"]::before {
         transition: all .2s ease-in;
     }
 
+    #user-section {
+        @apply absolute top-1/2 right-10 flex items-end -translate-y-1/2;
+    }
+
     /* form & input ------------------------------------- */
     .input-box {
         @apply my-1 px-2 py-1 border-2 border-sky-300 rounded-lg text-lg;
@@ -114,7 +92,7 @@ body[data-page="/practice"]::before {
     }
 
     .submit-btn {
-        @apply mx-1 px-4 py-2 font-bold rounded-lg;
+        @apply mx-1 px-3 py-2 font-bold rounded-lg;
         cursor: pointer;
     }
 
@@ -125,15 +103,6 @@ body[data-page="/practice"]::before {
     /* Modal Container */
     .select-box {
         @apply p-4 rounded-2xl fixed z-50 left-1/2 -translate-x-1/2 -translate-y-1/2;
-        animation-duration: .5s;
-    }
-
-    .select-box[data-select="true"] {
-        animation-name: backInUp;
-    }
-
-    .select-box[data-select="false"] {
-        animation-name: backOutDown;
     }
 
     .select-part {
@@ -142,5 +111,185 @@ body[data-page="/practice"]::before {
 
     .select-part:hover {
         transform: scale(1.05);
+    }
+}
+
+
+/* 반응형 - 태블릿 */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .main-wrapper {
+        @apply w-11/12;
+    }
+
+    nav {
+        @apply w-full;
+    }
+
+    .nav-item,
+    .nav-item.active,
+    .nav-item:hover {
+        @apply m-0.5 px-2.5 py-1.5;
+    }
+
+    #user-section {
+        @apply flex flex-col justify-between top-1/3 right-5;
+    }
+
+    #user-section>span {
+        @apply text-sm flex flex-col;
+    }
+
+    .nav-item {
+        @apply text-lg;
+    }
+
+    #sign-btn {
+        @apply text-base px-2.5 py-1.5 mt-1.5 -mb-4;
+    }
+
+    .submit-btn {
+        @apply text-lg;
+    }
+
+    #user-form > div {
+        @apply w-5/6;
+    }
+
+    #user-form input#email,
+    #user-form input#pw {
+        @apply text-lg;
+    }
+
+    #user-form input#sign-in,
+    #user-form input#sign-up {
+        @apply text-base;
+    }
+
+    .post-box {
+        @apply w-1/2;
+    }
+
+    footer {
+        @apply w-11/12 text-sm;
+    }
+
+    #top-btn {
+        @apply bottom-7 right-7;
+    }
+
+    #horizontal-btn>button {
+        @apply bottom-24 right-7;
+    }
+
+    .main-wrapper>main {
+        @apply m-6;
+    }
+
+    #dataset-form>div {
+        @apply w-11/12;
+    }
+
+    #dataset-form .submit-btn {
+        @apply flex mx-auto;
+    }
+
+    .transcript-data {
+        @apply w-80 bottom-0 left-0;
+    }
+}
+
+/* 반응형 - 모바일 */
+@media screen and (max-width: 768px) {
+    .main-wrapper {
+        @apply w-full;
+    }
+
+    nav {
+        @apply w-full;
+    }
+
+    .nav-item,
+    .nav-item.active,
+    .nav-item:hover {
+        @apply m-0.5 px-2 py-1;
+    }
+
+    #user-section {
+        @apply flex flex-col justify-between top-1/3 right-0;
+    }
+
+    #user-section>span {
+        @apply text-xs flex flex-col;
+    }
+
+    #sign-btn {
+        @apply text-base px-2 py-1 mt-2 -mb-4;
+    }
+
+    .nav-item {
+        @apply text-base;
+    }
+
+    .submit-btn {
+        @apply text-base;
+    }
+
+    #user-form > div {
+        @apply w-5/6;
+    }
+
+    #user-form input#email,
+    #user-form input#pw {
+        @apply text-base;
+    }
+
+    #user-form input#sign-in,
+    #user-form input#sign-up {
+        @apply text-sm;
+    }
+
+    .post-box {
+        @apply w-3/4;
+    }
+
+    footer {
+        @apply w-full text-xs;
+    }
+
+    .main-wrapper>main {
+        @apply m-2;
+    }
+
+    #dataset-form>div {
+        @apply w-full;
+    }
+
+    #dataset-form .submit-btn {
+        @apply flex mx-auto;
+    }
+
+    .content-box {
+        @apply w-full;
+    }
+
+    #top-btn {
+        @apply text-sm z-50 bottom-4 right-4;
+    }
+
+    #horizontal-btn {
+        @apply fixed z-30 hidden;
+    }
+
+    #horizontal-btn>button {
+        @apply bottom-20 right-4;
+    }
+
+    .transcript-data {
+        @apply w-20 mt-0 bottom-0 left-0;
+    }
+
+    .main-data,
+    .saved-data {
+        @apply w-5/6;
     }
 }

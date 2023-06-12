@@ -40,11 +40,11 @@ export default function Nav() {
                 <Link href="/practice" legacyBehavior>
                     <a onClick={checkAuth} className={`${"nav-item"} ${router.pathname === '/practice' ? 'active' : ''}`}>연습실</a>
                 </Link>
-                <div id="user-section" className="absolute top-1/2 right-10 flex items-end -translate-y-1/2">
+                <div id="user-section">
                     <span className="ts px-4 text-gray-600 hover:scale-105 hover:cursor-pointer" style={{
                         fontWeight: "600",
-                    }}>{email !== undefined ? `(User) : ${email}` : null}</span>
-                    <button className="ts submit-btn text-white bg-amber-400 text-xl font-extrabold border-2 border-amber-500 hover:text-amber-400 hover:bg-white"
+                    }}><span>{email !== undefined ? `(User) ` : null}</span><span>{email !== undefined ? email : null}</span></span>
+                    <button id="sign-btn" className="ts submit-btn text-white bg-amber-400 text-xl font-extrabold border-2 border-amber-500 hover:text-amber-400 hover:bg-white"
                         onClick={handleSign}>{email !== undefined ? '로그아웃' : '로그인'}</button>
                 </div>
             </nav>

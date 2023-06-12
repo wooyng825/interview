@@ -1,6 +1,5 @@
 import { db } from "@/config/firebaseClient";
 import { get, ref, remove } from "firebase/database";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faToggleOn, faToggleOff, faChevronCircleLeft, faChevronCircleRight, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +12,7 @@ import { GetServerSidePropsContext } from "next";
 import nookies from 'nookies';
 import { admin } from "@/config/firebaseAdmin";
 import { Props } from ".";
-import Head from "next/head";
+import Headmeta from "@/components/Headmeta";
 
 interface UserData {
     question: string,
@@ -106,9 +105,6 @@ export default function Practice({ uid }: Props) {
             const currentQuestion = dataList[count].question;
             setSynthesis(currentQuestion);
         },
-        Horizontal: () => {
-            setHorizontal(!horizontal);
-        }
     };
 
     // DB handler
@@ -226,15 +222,10 @@ export default function Practice({ uid }: Props) {
 
     return (
         <>
-            <Head>
-                <title>{"연습실 | For-Interview"}</title>
-                <meta name="description" content="For-Interview : 설정 데이터 기반으로 연습하는 페이지" />
-                <meta property="og:title" content="연습실 | For-Interview" key="title" />
-                <meta property="og:image" content="/images/microphone.jpg" />
-            </Head>
-            <div className="text-right">
-                <button onClick={handleClick.Horizontal}
-                    className={`fixed ${scrollState ? "bottom-32" : "bottom-10"} right-10 px-3 py-2 font-bold rounded-full text-sky-300 bg-white border-2 border-sky-300 hover:text-white hover:bg-sky-300`}>
+            <Headmeta title={"연습실"} url={"https://interview.bluecoder.dev/practice"} imageUrl={"/images/microphone.jpg"} />
+            <div id="horizontal-btn" className="text-right">
+                <button onClick={handleClick.ToggleHorizontal}
+                    className={`fixed ${scrollState ? "bottom-28" : "bottom-10"} right-10 px-3 py-2 font-bold rounded-full text-sky-300 bg-white border-2 border-sky-300 hover:text-white hover:bg-sky-300`}>
                     {horizontal ? "가로 보기" : "세로 보기"}
                 </button>
             </div>

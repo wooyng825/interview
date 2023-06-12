@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form';
 import { ref, update, get } from 'firebase/database';
 import { db } from "@/config/firebaseClient";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import DataContainer from '@/components/DataContainer';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '@/components/AuthProvider';
@@ -10,7 +9,7 @@ import nookies from 'nookies';
 import { GetServerSidePropsContext } from 'next';
 import { admin } from '@/config/firebaseAdmin';
 import { Props } from '.';
-import Head from 'next/head';
+import Headmeta from '@/components/Headmeta';
 
 interface HookFormTypes {
     question: string,
@@ -172,15 +171,10 @@ export default function DataSet({ uid }: Props) {
 
     return (
         <>
-            <Head>
-                <title>{"데이터 설정 | For-Interview"}</title>
-                <meta name="description" content="For-Interview : 데이터를 설정하는 페이지" />
-                <meta property="og:title" content="데이터 설정 | For-Interview" key="title" />
-                <meta property="og:image" content="/images/abstract-lines.jpg" />
-            </Head>
-            <main className="m-10">
-                <section className="m-10">
-                    <form className="flex flex-col items-center">
+            <Headmeta title={"데이터 설정"} url={"https://interview.bluecoder.dev/dataset"} imageUrl={"/images/abstract-lines.jpg"} />
+            <main id="dataset-main" className="m-10">
+                <section id="dataset-section" className="m-10">
+                    <form id="dataset-form" className="flex flex-col items-center">
                         <div className="flex w-3/4 flex-col m-0">
                             <input id="question" className="input-box" type="text" placeholder="Question" autoFocus
                                 {...register("question", { required: true })} />

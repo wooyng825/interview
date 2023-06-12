@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
+import { faXmarkCircle, faClone } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import { toast } from "react-hot-toast";
 
 type Props = {
     showSelect: boolean,
@@ -13,13 +14,41 @@ export default function MailBox({ showSelect, setShowSelect }: Props) {
         setShowSelect(false);
     };
 
+    const clipBoard = () => {
+        const textarea = document.createElement("textarea");
+        document.body.appendChild(textarea);
+
+        textarea.value = "wooyng825@naver.com";
+        textarea.select();
+
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        toast.success('이메일 주소 복사 완료');
+    }
+
+    useEffect(() => {
+        const mailBox: HTMLElement = document.querySelector('.select-box')!;
+
+        if (showSelect) {
+            mailBox.style.top = "50%";
+        } else {
+            mailBox.style.top = "200%";
+        }
+    });
+
     return (
         <>
-            <div data-select={`${showSelect}`} className="select-box ts flex flex-col justify-center items-center bg-sky-300"
-                style={{ top: `${showSelect ? "50%" : "150%"}` }}>
-                <span className="py-2">
-                    <span className="font-bold">{"Contact:"}</span>&nbsp;{"wooyng825@naver.com"}
-                </span>
+            <div data-select={`${showSelect}`} className="select-box ts duration-300 flex flex-col justify-center items-center bg-blue-200"
+                style={{ top: "200%" }}>
+                <div className="py-2 w-full flex justify-around">
+                    <span>
+                        <span className="font-bold">{"Contact:"}</span>&nbsp;<span>{"wooyng825@naver.com"}</span>
+                    </span>
+                    <button type="button" className="ts text-gray-500 hover:text-black hover:scale-125"
+                        onClick={clipBoard}>
+                        <FontAwesomeIcon icon={faClone} className="fa-xl" /></button>
+                </div>
                 <a target="blank" href="https://mail.naver.com/write/popup?srvid=note&to=wooyng825@naver.com" className="select-part ts bg-white">
                     <Image src="/icons/naver.png" width={80} height={80} alt="네이버 로고" />네이버 메일</a>
                 <a target="blank" href="https://mail.daum.net" className="select-part ts bg-white">

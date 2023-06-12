@@ -1,6 +1,11 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-export default function TopBtn() {
+type Props = {
+    horizontal: boolean,
+    setHorizontal: Dispatch<SetStateAction<boolean>>
+};
+
+export default function TopBtn({ horizontal, setHorizontal }: Props) {
     const [state, setState] = useState(false);
     const handler = {
         scroll: () => {
@@ -22,7 +27,7 @@ export default function TopBtn() {
 
     return (
         <>
-            <div className={`ts ${state ? '' : "hidden "}fixed bottom-10 right-10 p-4 font-extrabold text-lg text-white bg-sky-300 border-sky-500 border-2 rounded-full hover:text-sky-500 hover:bg-white hover:cursor-pointer hover:scale-110`}
+            <div id="top-btn" className={`ts ${state ? '' : "hidden "}fixed bottom-10 right-10 p-4 font-extrabold text-lg text-white bg-sky-300 border-sky-500 border-2 rounded-full hover:text-sky-500 hover:bg-white hover:cursor-pointer hover:scale-110`}
                 onClick={handler.scroll}>TOP</div>
         </>
     );

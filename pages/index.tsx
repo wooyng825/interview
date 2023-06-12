@@ -11,7 +11,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { GetServerSidePropsContext } from 'next';
 import { admin } from '@/config/firebaseAdmin';
 import nookies from 'nookies';
-import Head from 'next/head';
+import Headmeta from '@/components/Headmeta';
 
 enum Type { signIn, signUp };
 
@@ -43,13 +43,17 @@ export default function Home({ uid, homePost }: Props) {
     const [post, setPost] = useState<Array<Post>>([]);
     const { register, handleSubmit, reset } = useForm<HookFormTypes>();
 
+    const icons = [
+        '❤️','👍','👌','✌️','😀','😃','😄','😁','💪','✨','⭐','🌟','🤩'
+    ];
+
     const greetings = [
         '당신의 꿈과 열정을 응원합니다.',
         '좋은 하루 보내세요!',
-        '방문해주셔서 감사합니다.',
         '지금처럼 한 걸음씩 나아가길 바랍니다.',
         '포기하지 않는 한 꿈은 이루어집니다.',
-
+        '노력하는 당신이 이루지 못할 것은 없습니다.',
+        '실패에 대한 두려움이 마음에 가득하다면, 성공은 불가능해질 것입니다.'
     ];
 
     const onValid = {
@@ -70,8 +74,8 @@ export default function Home({ uid, homePost }: Props) {
                 data.email,
                 data.pw,
             ).then((res) => {
+                router.reload();
                 toast.success('로그인 성공!');
-                router.push("/", undefined, { shallow: true });
             }).catch((error) => {
                 handleAuth.error(error.code, Type.signIn);
             });
@@ -151,8 +155,9 @@ export default function Home({ uid, homePost }: Props) {
 
     useEffect(() => {
         if (user && uid) {
-            const randomIndex = Math.floor(Math.random() * greetings.length);
-            toast.success(`${user.email}님, \n${greetings[randomIndex]}`, { style: { textAlign: "center", fontWeight: "bold" } });
+            const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+            const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+            toast.success(randomGreeting, {icon: randomIcon , style: { maxWidth: "max-content", textAlign: "center", fontWeight: "bold" } });
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -160,14 +165,10 @@ export default function Home({ uid, homePost }: Props) {
 
     return (
         <>
-            <Head>
-                <title>{"홈 | For-Interview"}</title>
-                <meta property="og:title" content="홈 | For-Interview" key="title" />
-                <meta property="og:image" content="/images/interview.jpg" />
-            </Head>
-            <section className={`${user !== null ? "hidden" : ""} py-20 mx-auto my-40 w-1/2 opacity-80 text-center bg-white border-2 border-sky-500 rounded-lg`}>
+            <Headmeta title={"홈"} url={"https://interview.bluecoder.dev"} imageUrl={"/images/interview.jpg"} />
+            <section className={`${user !== null || uid !== undefined ? "hidden" : ""} py-20 mx-auto my-40 w-1/2 opacity-80 text-center bg-white border-2 border-sky-500 rounded-lg`}>
                 <main>
-                    <form className="flex justify-center">
+                    <form id="user-form" className="flex flex-wrap justify-center">
                         <div className="flex w-1/2 flex-col m-0">
                             <input id="email" className="input-box" type="email" placeholder="Email" autoFocus
                                 {...register("email", { required: true })} />

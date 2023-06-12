@@ -166,7 +166,7 @@ export default function Home({ uid, homePost }: Props) {
     return (
         <>
             <Headmeta title={"홈"} url={"https://interview.bluecoder.dev"} imageUrl={"/images/interview.jpg"} />
-            <section className={`${user !== null || uid !== undefined ? "hidden" : ""} py-20 mx-auto my-40 w-1/2 opacity-80 text-center bg-white border-2 border-sky-500 rounded-lg`}>
+            <section id="sign-section" className={`${user !== null || uid !== undefined ? "hidden" : ""} py-20 mx-auto my-40 w-1/2 opacity-80 text-center bg-white border-2 border-sky-500 rounded-lg`}>
                 <main>
                     <form id="user-form" className="flex flex-wrap justify-center">
                         <div className="flex w-1/2 flex-col m-0">

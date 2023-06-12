@@ -17,7 +17,7 @@ body::before {
     width: 100%;
     height: 100%;
     z-index: -10;
-    background-size: cover;
+    background-size:cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
@@ -151,6 +151,10 @@ body[data-page="/practice"]::before {
         @apply text-lg;
     }
 
+    #sign-section {
+        @apply w-1/2 my-32;
+    }
+
     #user-form > div {
         @apply w-5/6;
     }
@@ -224,6 +228,10 @@ body[data-page="/practice"]::before {
 
     #sign-btn {
         @apply text-base px-2 py-1 mt-2 -mb-4;
+    }
+
+    #sign-section {
+        @apply w-2/3 my-32;
     }
 
     .nav-item {

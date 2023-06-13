@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "ads.css";
+
 html,
 body {
     width: 100%;
@@ -44,7 +46,11 @@ body[data-page="/practice"]::before {
     }
 
     footer {
-        @apply flex w-4/5 h-28 p-4 mx-auto justify-between relative translate-y-full;
+        @apply flex w-4/5 h-28 p-4 mx-auto justify-between relative;
+    }
+
+    ins {
+        @apply w-full h-full;
     }
 }
 
@@ -199,6 +205,10 @@ body[data-page="/practice"]::before {
 
     .transcript-data {
         @apply w-80 bottom-0 left-0;
+    }
+
+    .kakao-ads[data-media="Mobile"] {
+        @apply hidden;
     }
 }
 

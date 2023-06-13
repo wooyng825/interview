@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import MailBox from '@/components/MailBox';
 import Footer from '@/components/Footer';
+import Ads from '@/components/Ads';
+import { Media } from '@/components/Ads';
 
 export default function App({ Component, pageProps }: AppProps) {
     const router = useRouter();
@@ -26,6 +28,8 @@ export default function App({ Component, pageProps }: AppProps) {
                 <Layout>
                     <Component {...pageProps} />
                 </Layout>
+                <Ads media={Media.Mobile} adUnit='DAN-1jZkZ2cM24p1Eb5Q' adWidth={320} adHeight={50} />
+                <Ads media={Media.PC} adUnit='DAN-tPiNaH1ycZ2qjLS1' adWidth={728} adHeight={90} />
                 <Footer setShowSelect={setShowSelect} />
                 <MailBox showSelect={showSelect} setShowSelect={setShowSelect} />
             </AuthProvider>

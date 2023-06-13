@@ -190,6 +190,9 @@
 - 가로보기 / 세로보기 버튼 z-index 값 수정
 - 3.2 ver. 업데이트 완료
 
+- 카카오 비즈니스 - Adfit 광고 배너 추가 [PC / Mobile]
+- 광고 배너 관련 스타일시트 생성 및 적용
+
 <br />
 
 ### 기업 CI(Coperation Identity) 이미지 출처

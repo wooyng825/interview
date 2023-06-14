@@ -22,8 +22,8 @@ export default class MyDocument extends Document {
                 </Head>
                 <body>
                     <Main />
-                    <NextScript />
                     <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+                    <NextScript />
                 </body>
             </Html>
         );

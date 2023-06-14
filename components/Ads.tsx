@@ -15,7 +15,7 @@ export default function Ads({ media, adUnit, adWidth, adHeight }: Info) {
     return (
         <>
             <div data-media={media} className="kakao-ads mx-auto" style={{ width: `${adWidth}px`, height: `${adHeight}px` }}>
-                <ins className="kakao_ad_area"
+                <ins className="kakao_ad_area" style={{ display: "none" }}
                     data-ad-unit={adUnit}
                     data-ad-width = {`${adWidth}`}
                     data-ad-height = {`${adHeight}`}></ins>

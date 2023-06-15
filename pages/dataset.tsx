@@ -10,6 +10,7 @@ import { GetServerSidePropsContext } from 'next';
 import { admin } from '@/config/firebaseAdmin';
 import { Props } from '.';
 import Headmeta from '@/components/Headmeta';
+import Ads from '@/components/Ads';
 
 interface HookFormTypes {
     question: string,
@@ -172,6 +173,7 @@ export default function DataSet({ uid }: Props) {
     return (
         <>
             <Headmeta title={"데이터 설정"} url={"https://interview.bluecoder.dev/dataset"} imageUrl={"/images/abstract-lines.jpg"} />
+            <Ads adUnit='DAN-1jZkZ2cM24p1Eb5Q' adWidth={320} adHeight={50} />
             <main id="dataset-main" className="m-10">
                 <section id="dataset-section" className="m-10">
                     <form id="dataset-form" className="flex flex-col items-center">

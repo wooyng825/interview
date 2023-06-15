@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "ads.css";
-
 html,
 body {
     width: 100%;
@@ -205,10 +203,6 @@ body[data-page="/practice"]::before {
 
     .transcript-data {
         @apply w-80 bottom-0 left-0;
-    }
-
-    .kakao-ads[data-media="Mobile"] {
-        @apply hidden;
     }
 }
 

@@ -12,6 +12,7 @@ import { GetServerSidePropsContext } from 'next';
 import { admin } from '@/config/firebaseAdmin';
 import nookies from 'nookies';
 import Headmeta from '@/components/Headmeta';
+import Ads from '@/components/Ads';
 
 enum Type { signIn, signUp };
 
@@ -166,6 +167,7 @@ export default function Home({ uid, homePost }: Props) {
     return (
         <>
             <Headmeta title={"홈"} url={"https://interview.bluecoder.dev"} imageUrl={"/images/interview.jpg"} />
+            <Ads adUnit='DAN-1jZkZ2cM24p1Eb5Q' adWidth={320} adHeight={50} />
             <section id="sign-section" className={`${user !== null || uid !== undefined ? "hidden" : ""} py-20 mx-auto my-40 w-1/2 opacity-80 text-center bg-white border-2 border-sky-500 rounded-lg`}>
                 <main>
                     <form id="user-form" className="flex flex-wrap justify-center">

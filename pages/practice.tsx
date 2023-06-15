@@ -13,6 +13,7 @@ import nookies from 'nookies';
 import { admin } from "@/config/firebaseAdmin";
 import { Props } from ".";
 import Headmeta from "@/components/Headmeta";
+import Ads from "@/components/Ads";
 
 interface UserData {
     question: string,
@@ -232,6 +233,7 @@ export default function Practice({ uid }: Props) {
     return (
         <>
             <Headmeta title={"연습실"} url={"https://interview.bluecoder.dev/practice"} imageUrl={"/images/microphone.jpg"} />
+            <Ads adUnit='DAN-1jZkZ2cM24p1Eb5Q' adWidth={320} adHeight={50} />
             <div id="horizontal-btn" className="text-right">
                 <button onClick={handleClick.ToggleHorizontal}
                     className={`fixed ${scrollState ? "bottom-28" : "bottom-10"} right-10 px-3 py-2 z-10 font-bold rounded-full text-sky-300 bg-white border-2 border-sky-300 hover:text-white hover:bg-sky-300`}>

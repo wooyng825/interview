@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { Dispatch, SetStateAction } from "react";
-import Ads from "./Ads";
 
 export const author = 'bluecoder';
 const now = new Date(Date.now()).getFullYear();

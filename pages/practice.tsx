@@ -278,6 +278,7 @@ export default function Practice({ uid }: Props) {
                         }
                     </section>
                 </div>
+                <Ads adUnit='DAN-1jZkZ2cM24p1Eb5Q' adWidth={320} adHeight={50} />
                 <div className={`saved-data ts ${horizontal ? "ml-2.5" : "mx-auto"} my-4 w-2/3 h-full flex flex-col items-center opacity-80 bg-yellow-300 border-2 border-amber-300 rounded-2xl hover:scale-105 hover:opacity-100`}>
                     <h2 className="p-3 italic text-xl">{"Record Data"}</h2>
                     <section className="data-section mx-0 my-4 w-10/12">

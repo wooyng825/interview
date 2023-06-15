@@ -173,7 +173,6 @@ export default function DataSet({ uid }: Props) {
     return (
         <>
             <Headmeta title={"데이터 설정"} url={"https://interview.bluecoder.dev/dataset"} imageUrl={"/images/abstract-lines.jpg"} />
-            <Ads adUnit='DAN-1jZkZ2cM24p1Eb5Q' adWidth={320} adHeight={50} />
             <main id="dataset-main" className="m-10">
                 <section id="dataset-section" className="m-10">
                     <form id="dataset-form" className="flex flex-col items-center">
@@ -189,6 +188,7 @@ export default function DataSet({ uid }: Props) {
                         </div>
                     </form>
                 </section>
+                <Ads adUnit='DAN-1jZkZ2cM24p1Eb5Q' adWidth={320} adHeight={50} />
                 <div className="m-10">
                     <div className="content-box w-3/4 mx-auto flex flex-col items-center rounded-lg opacity-90">
                         <span className="p-4 italic text-xl">{"Saved Data"}</span>
